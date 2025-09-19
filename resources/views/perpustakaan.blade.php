@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Buku - Perpustakaan Digital</title>
+    <title>Daftar Buku - EduSelf</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <header class="bg-blue-500 text-white py-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-semibold">Perpustakaan Digital</h1>
+            <div class="flex items-center">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3 rounded-full">
+                <h1 class="text-2xl font-semibold">EduSelf</h1>
+            </div>
             <nav>
                 <ul class="flex space-x-6">
                     <li><a href="/" class="hover:text-gray-200">Home</a></li>
@@ -23,7 +26,6 @@
     <main class="container mx-auto py-8">
         <div class="bg-white shadow-md rounded px-8 py-6">
             <h2 class="text-xl font-semibold mb-4">Daftar Buku</h2>
-            <!-- Kolom Pencarian -->
             <form method="GET" action="{{ url('/perpustakaan') }}" class="mb-6 flex items-center">
                 <input
                     type="text"
@@ -58,7 +60,7 @@
     </main>
 
     <footer class="bg-gray-800 text-white py-4 text-center">
-        <p>&copy; 2024 Perpustakaan Digital. All rights reserved.</p>
+        <p>&copy; 2025 EduSelf. All rights reserved.</p>
     </footer>
 </body>
 </html>
