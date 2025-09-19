@@ -50,7 +50,7 @@
                     <th>Jenis Kelamin</th>
                     <th>Program Studi</th>
                     <th>Nomor HP</th>
-                    <th style="width: 150px">Aksi</th>
+                    <th style="width: 75px">Kelola</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,11 +62,11 @@
                     <td>{{ $anggota->prodi }}</td>
                     <td>{{ $anggota->hp}}</td>
                     <td>
-                        <a href="{{ route('anggotas.edit', $anggota->id) }}" class="btn btn-warning btn-xs">Edit</a>
+                        <a href="{{ route('anggotas.edit', $anggota->id) }}" class="btn btn-success btn-xs"><i class="fa fa-pen"></i></a>
                         <form action="{{ route('anggotas.destroy', $anggota->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus data ini?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>

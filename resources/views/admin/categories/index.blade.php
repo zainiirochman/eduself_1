@@ -31,13 +31,23 @@
                 </button>
             </div>
         @endif
+        <form method="GET" action="{{ route('categories.index') }}" class="mb-3 d-flex">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                class="form-control mr-2"
+                placeholder="Cari nama kategori..."
+            >
+            <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th style="width: 10px">No</th>
                     <th>Nama Kategori</th>
-                    <th style="width: 150px">Aksi</th>
+                    <th style="width: 75px">Kelola</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,11 +56,11 @@
                     <td>{{ $categories->firstItem() + $key }}</td>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-xs">Edit</a>
+                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-success btn-xs"><i class="fa fa-pen"></i></a>
                         <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus data ini?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>

@@ -34,14 +34,14 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th style="width: 10px">No</th>
                     <th>ID Buku</th>
                     <th>Judul Buku</th>
                     <th>Kategori</th>
                     <th>Pengarang</th>
                     <th>Penerbit</th>
                     <th>Tahun</th>
-                    <th>Kelola</th>
+                    <th style="width: 75px">Kelola</th>
                 </tr>
             </thead>
             <tbody>
