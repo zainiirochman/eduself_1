@@ -12,9 +12,16 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('category')->latest()->paginate(10);
+        $search = $request->input('search');
+        $books = Book::with('category')
+            ->when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10);
+
         return view('admin.books.index', compact('books'));
     }
 
@@ -57,7 +64,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Book $book)
     {
         $categories = Category::all();
         return view('admin.books.edit', compact('book', 'categories'));
@@ -66,7 +73,7 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Book $book)
     {
         $request->validate([
             'book_id' => 'required|string|unique:books,book_id,' . $book->id,
@@ -74,11 +81,13 @@ class BookController extends Controller
             'category_id' => 'required|exists:categories,id',
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
-            'year' => 'required|digits:4|integer|min:1900|max:' . (date('Y')),
+            'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
         ]);
 
+        // 2. Update data buku dengan data baru
         $book->update($request->all());
 
+        // 3. Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('books.index')->with('success', 'Data buku berhasil diperbarui.');
     }
 

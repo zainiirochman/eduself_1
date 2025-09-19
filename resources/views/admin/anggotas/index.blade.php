@@ -31,6 +31,16 @@
                 </button>
             </div>
         @endif
+        <form method="GET" action="{{ route('anggotas.index') }}" class="mb-3 d-flex">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                class="form-control mr-2"
+                placeholder="Cari nama anggota..."
+            >
+            <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
 
         <table class="table table-bordered">
             <thead>

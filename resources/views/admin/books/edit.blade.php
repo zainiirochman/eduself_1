@@ -1,30 +1,34 @@
 @extends('adminlte::page')
 
-@section('title', 'Tambah Data Buku')
+@section('title', 'Edit Data Buku')
 
 @section('content_header')
-    <h1>Tambah Data Buku</h1>
+    <h1>Edit Data Buku</h1>
 @stop
 
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('books.update', $book->id) }}" method="PUT">
+        {{-- [FIX 1] Mengubah method menjadi POST dan menambahkan @method('PUT') --}}
+        <form action="{{ route('books.update', $book->id) }}" method="POST">
             @csrf
-            {{-- Isi Form di sini --}}
+            @method('PUT')
+
             <div class="form-group">
                 <label>ID Buku</label>
-                <input type="text" name="book_id" class="form-control @error('book_id') is-invalid @enderror" value="{{ old('book_id') }}">
+                {{-- [FIX 2] Menambahkan $book->book_id untuk menampilkan data yang sudah ada --}}
+                <input type="text" name="book_id" class="form-control @error('book_id') is-invalid @enderror" value="{{ old('book_id', $book->book_id) }}">
                 @error('book_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label>Judul Buku</label>
-                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
+                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $book->title) }}">
                 @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label>Kategori</label>
                 <select name="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                    {{-- [FIX 3] Logika old() yang lebih sederhana dan benar --}}
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
@@ -35,21 +39,21 @@
             </div>
             <div class="form-group">
                 <label>Pengarang</label>
-                <input type="text" name="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author') }}">
+                <input type="text" name="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author', $book->author) }}">
                 @error('author') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label>Penerbit</label>
-                <input type="text" name="publisher" class="form-control @error('publisher') is-invalid @enderror" value="{{ old('publisher') }}">
+                <input type="text" name="publisher" class="form-control @error('publisher') is-invalid @enderror" value="{{ old('publisher', $book->publisher) }}">
                 @error('publisher') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label>Tahun Terbit</label>
-                <input type="number" name="year" class="form-control @error('year') is-invalid @enderror" value="{{ old('year') }}">
+                <input type="number" name="year" class="form-control @error('year') is-invalid @enderror" value="{{ old('year', $book->year) }}">
                 @error('year') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <a href="{{ route('books.index') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>

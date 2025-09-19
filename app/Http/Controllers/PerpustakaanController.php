@@ -16,8 +16,8 @@ class PerpustakaanController extends Controller
         // return view('perpustakaan', compact('books'));
         $search = $request->input('search');
         $books = Book::when($search, function($query, $search) {
-        return $query->where('title', 'like', "%{$search}%");
-    })->get();
+            return $query->where('title', 'like', "%{$search}%");
+        })->get();
 
     return view('perpustakaan', compact('books'));
     }
