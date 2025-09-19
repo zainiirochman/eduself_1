@@ -9,14 +9,12 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        {{-- [FIX 1] Mengubah method menjadi POST dan menambahkan @method('PUT') --}}
         <form action="{{ route('books.update', $book->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-group">
                 <label>ID Buku</label>
-                {{-- [FIX 2] Menambahkan $book->book_id untuk menampilkan data yang sudah ada --}}
                 <input type="text" name="book_id" class="form-control @error('book_id') is-invalid @enderror" value="{{ old('book_id', $book->book_id) }}">
                 @error('book_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -28,7 +26,6 @@
             <div class="form-group">
                 <label>Kategori</label>
                 <select name="category_id" class="form-control @error('category_id') is-invalid @enderror">
-                    {{-- [FIX 3] Logika old() yang lebih sederhana dan benar --}}
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
