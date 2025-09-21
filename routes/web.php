@@ -7,20 +7,18 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PerpustakaanController;
-use App\Http\Controllers\RegisterPenggunaController;
+use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/login_pengguna', function () {
-    return view('login_pengguna');
-});
-Route::get('/register_pengguna', function () {
-    return view('register_pengguna');
-})->name('register_pengguna');
+Route::get('/login_pengguna', [PenggunaController::class, 'showLogin'])->name('login_pengguna');
+Route::get('/register_pengguna', [PenggunaController::class, 'showRegister'])->name('register_pengguna');
 
-Route::post('/register_pengguna', [RegisterPenggunaController::class, 'store'])->name('register_pengguna.store');
+Route::post('/register_pengguna', [PenggunaController::class, 'register'])->name('register_pengguna.store');
+Route::post('/login_pengguna', [PenggunaController::class, 'login'])->name('login_pengguna.store');
+Route::post('/logout_pengguna', [PenggunaController::class, 'logout'])->name('logout_pengguna');
 
 Route::get('/perpustakaan', [PerpustakaanController::class, 'index']);
 Route::middleware('auth')->group(function () {

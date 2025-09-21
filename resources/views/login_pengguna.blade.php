@@ -15,11 +15,11 @@
             <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-12 w-12 mr-2 rounded-full">
             <h1 class="text-2xl font-bold text-blue-600">Login EduSelf</h1>
         </div>
-        <form action="/login" method="POST" class="space-y-5">
+        <form action="{{ route('login_pengguna.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
-                <label for="nomor_hp" class="block text-gray-700 font-semibold mb-2">Nomor HP</label>
-                <input type="text" id="nomor_hp" name="nomor_hp" required
+                <label for="hp" class="block text-gray-700 font-semibold mb-2">Nomor HP</label>
+                <input type="text" id="hp" name="hp" required
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>

@@ -94,4 +94,15 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Admin berhasil dihapus.');
     }
+
+    /**
+     * Logout user
+     */
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login'); // pastikan route login admin adalah 'login'
+    }
 }

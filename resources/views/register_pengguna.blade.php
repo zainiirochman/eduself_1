@@ -7,15 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-            <div class="absolute top-6 left-6">
-            <a href="{{ url('/') }}" class="text-gray-500 hover:text-blue-600 text-2xl font-bold">&times;</a>
-        </div>
+    <div class="absolute top-6 left-6">
+        <a href="{{ url('/') }}" class="text-gray-500 hover:text-blue-600 text-2xl font-bold">&times;</a>
+    </div>
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
         <div class="flex items-center justify-center mb-6">
             <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-12 w-12 mr-2 rounded-full">
             <h1 class="text-2xl font-bold text-blue-600">Register EduSelf</h1>
         </div>
-        <form action="/register_pengguna" method="POST" class="space-y-5">
+        <form action="{{ route('register_pengguna.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
                 <label for="name" class="block text-gray-700 font-semibold mb-2">Nama Lengkap</label>
@@ -58,7 +58,7 @@
         </form>
         <div class="mt-6 text-center">
             <span class="text-gray-600">Sudah punya akun?</span>
-            <a href="{{ url('/login_pengguna') }}" class="text-blue-600 font-semibold hover:underline ml-1">Login</a>
+            <a href="{{ route('login_pengguna') }}" class="text-blue-600 font-semibold hover:underline ml-1">Login</a>
         </div>
     </div>
 </body>
