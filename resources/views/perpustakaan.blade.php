@@ -18,6 +18,8 @@
                     <li><a href="/" class="hover:text-gray-200">Home</a></li>
                     <li><a href="/tentang-kami" class="hover:text-gray-200">Tentang Kami</a></li>
                     <li><a href="/perpustakaan" class="hover:text-gray-200">Perpustakaan</a></li>
+                    <li><a href="/login_pengguna" class="hover:text-gray-200">Login</a></li>
+                    <li><a href="/register_pengguna" class="hover:text-gray-200">Register</a></li>
                 </ul>
             </nav>
         </div>
