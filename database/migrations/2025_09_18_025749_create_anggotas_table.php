@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('jk',['Laki-laki', 'Perempuan']);
             $table->enum('prodi',['Pend. Teknologi Informasi', 'Sistem Informasi', 'Teknik Informatika']);
             $table->string('hp');
+            $table->string('password');
             $table->timestamps();
         });
     }
