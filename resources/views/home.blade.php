@@ -30,8 +30,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/tentang-kami" class="px-4 py-2 rounded transition
-                            {{ request()->is('tentang-kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                        <a href="/tentang_kami" class="px-4 py-2 rounded transition
+                            {{ request()->is('tentang_kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
                             Tentang Kami
                         </a>
                     </li>
