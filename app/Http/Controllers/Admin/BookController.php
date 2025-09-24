@@ -40,15 +40,22 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'book_id' => 'required|string|unique:books',
+            // 'id' => 'required|string|unique:books',
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
             'year' => 'required|digits:4|integer|min:1900|max:' . (date('Y')),
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Book::create($request->all());
+        $data = $request->except('cover');
+
+        if ($request->hasFile('cover')) {
+            $data['cover'] = file_get_contents($request->file('cover')->getRealPath());
+        }
+
+        Book::create($data);
 
         return redirect()->route('books.index')->with('success', 'Buku berhasil ditambahkan.');
     }
@@ -76,16 +83,23 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $request->validate([
-            'book_id' => 'required|string|unique:books,book_id,' . $book->id,
+            // 'id' => 'required|string|unique:books,id,' . $book->id,
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
         ]);
 
         // 2. Update data buku dengan data baru
         $book->update($request->all());
+
+        if ($request->hasFile('cover')) {
+            $coverData = file_get_contents($request->file('cover')->getRealPath());
+            $book->cover = $coverData;
+            $book->save();
+        }
 
         // 3. Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('books.index')->with('success', 'Data buku berhasil diperbarui.');

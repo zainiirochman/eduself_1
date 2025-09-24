@@ -8,11 +8,10 @@ use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PerpustakaanController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/tentang_kami', function () {
     return view('tentang_kami');
 });

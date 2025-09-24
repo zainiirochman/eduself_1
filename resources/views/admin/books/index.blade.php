@@ -35,7 +35,6 @@
             <thead>
                 <tr>
                     <th style="width: 10px">No</th>
-                    <th>ID Buku</th>
                     <th>Judul Buku</th>
                     <th>Kategori</th>
                     <th>Pengarang</th>
@@ -48,7 +47,6 @@
                 @forelse($books as $key => $book)
                 <tr>
                     <td>{{ $books->firstItem() + $key }}</td>
-                    <td>{{ $book->book_id }}</td>
                     <td>{{ $book->title }}</td>
                     <td>{{ $book->category->name }}</td>
                     <td>{{ $book->author }}</td>

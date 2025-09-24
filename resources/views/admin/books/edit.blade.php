@@ -9,15 +9,15 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('books.update', $book->id) }}" method="POST">
+        <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>ID Buku</label>
                 <input type="text" name="book_id" class="form-control @error('book_id') is-invalid @enderror" value="{{ old('book_id', $book->book_id) }}">
                 @error('book_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
+            </div> -->
             <div class="form-group">
                 <label>Judul Buku</label>
                 <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $book->title) }}">
@@ -49,7 +49,11 @@
                 <input type="number" name="year" class="form-control @error('year') is-invalid @enderror" value="{{ old('year', $book->year) }}">
                 @error('year') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-
+            <div class="form-group">
+                <label>Upload Cover Buku (Max. 1 MB)</label>
+                <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror">
+                @error('cover') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
             <button type="submit" class="btn btn-primary">Update</button>
             <a href="{{ route('books.index') }}" class="btn btn-secondary">Batal</a>
         </form>
