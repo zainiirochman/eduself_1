@@ -11,9 +11,14 @@
     <div class="card-body">
         <form action="{{ route('anggotas.store') }}" method="POST">
             @csrf
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="name">Nama Anggota</label>
                 <input type="text" name="name" value="{{ old('name') }}">
+                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div> -->
+            <div class="form-group">
+                <label>Nama Anggota</label>
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
@@ -35,10 +40,20 @@
                 </select>
                 @error('prodi') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="hp">Nomor HP</label>
                 <input type="text" name="hp" value="{{ old('hp') }}">
                 @error('hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div> -->
+            <div class="form-group">
+                <label>Nomor HP</label>
+                <input type="text" name="hp" class="form-control @error('hp') is-invalid @enderror" value="{{ old('hp') }}">
+                @error('hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
+                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('anggotas.index') }}" class="btn btn-secondary">Batal</a>

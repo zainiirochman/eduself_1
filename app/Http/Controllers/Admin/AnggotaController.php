@@ -34,14 +34,15 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
+         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'jk' => 'required|in:Laki-laki,Perempuan',
             'prodi' => 'required|in:Pend. Teknologi Informasi,Sistem Informasi, Teknik Informatika',
             'hp' => 'required|string|max:15',
+            'password' => 'required|string|min:6',
         ]);
-
-        Anggota::create($request->all());
+        $validated['password'] = bcrypt($validated['password']);
+        Anggota::create($validated);
 
         return redirect()->route('anggotas.index')->with('success', 'Anggota berhasil ditambahkan.');
     }
