@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AnggotaController;
+use App\Http\Controllers\Admin\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PerpustakaanController;
 use App\Http\Controllers\PenggunaController;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/books', BookController::class);
     Route::resource('admin/categories', CategoryController::class);
     Route::resource('admin/anggotas', AnggotaController::class);
+    Route::resource('admin/peminjamans', PeminjamanController::class);
 });
 
 require __DIR__.'/auth.php';

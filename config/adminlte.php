@@ -339,6 +339,11 @@ return [
                     'url'  => 'admin/anggotas',
                     'icon' => 'fas fa-fw fa-users',
                 ],
+                [
+                    'text' => 'Data Peminjaman',
+                    'url'  => 'admin/peminjamans',
+                    'icon' => 'fas fa-fw fa-users',
+                ],
             ],
         ],
         [

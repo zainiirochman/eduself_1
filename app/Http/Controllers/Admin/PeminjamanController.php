@@ -1,0 +1,115 @@
+<?php
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Book;
+use App\Models\Anggota;
+use App\Models\Peminjaman;
+use Carbon\Carbon;
+
+class PeminjamanController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $query = Peminjaman::with(['buku', 'anggota']);
+        if ($request->search) {
+            $query->whereHas('buku', function($q) use ($request) {
+                $q->where('title', 'ilike', '%' . $request->search . '%');
+            })->orWhereHas('anggota', function($q) use ($request) {
+                $q->where('name', 'ilike', '%' . $request->search . '%');
+            });
+        }
+        $peminjamans = $query->get();
+
+        foreach ($peminjamans as $peminjaman) {
+            $jatuhTempo = \Carbon\Carbon::parse($peminjaman->tanggal_jatuh_tempo);
+            $hariTerlambat = $jatuhTempo->diffInDays(now(), false);
+            $denda = $hariTerlambat > 0 ? $hariTerlambat * 10000 : 0;
+            $denda = (int) $denda; 
+            
+            if ($peminjaman->denda !== $denda) {
+                $peminjaman->denda = $denda;
+                $peminjaman->save();
+            }
+        }
+
+        return view('admin.peminjamans.index', compact('peminjamans'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $books = Book::all();
+        $anggotas = Anggota::all();
+        return view('admin.peminjamans.create', compact('books', 'anggotas'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'buku_id' => 'required|exists:books,id',
+            'anggota_id' => 'required|exists:anggotas,id',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_jatuh_tempo' => 'required|date',
+            'denda' => 'nullable|integer',
+        ]);
+
+        Peminjaman::create($request->all());
+
+        return redirect()->route('peminjamans.index')->with('success', 'Data peminjaman berhasil ditambahkan.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Peminjaman $peminjaman)
+    {
+        $books = Book::all(); // Ambil semua data buku
+        $anggotas = Anggota::all(); // Ambil semua data anggota
+        return view('admin.peminjamans.edit', compact('peminjaman', 'books', 'anggotas'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Peminjaman $peminjaman)
+    {
+        $request->validate([
+            'buku_id' => 'required|exists:books,id',
+            'anggota_id' => 'required|exists:anggotas,id',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_jatuh_tempo' => 'required|date',
+            'denda' => 'nullable|integer',
+        ]);
+
+        $peminjaman->update($request->all());
+
+        return redirect()->route('admin.peminjamans.index')->with('success', 'Data peminjaman berhasil diubah.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Peminjaman $peminjaman)
+    {
+        $peminjaman->delete();
+        return redirect()->route('peminjamans.index')->with('success', 'Peminjaman berhasil dihapus.');
+    }
+}
