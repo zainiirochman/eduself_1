@@ -10,13 +10,33 @@
 
 {{-- Konten Utama --}}
 @section('content')
-    <p>Selamat datang di halaman admin!</p>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Contoh Card</h3>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow" style="background:#48a9c5;color:#fff;">
+                <div class="card-body text-center">
+                    <span style="font-size:2rem;"><i class="fas fa-book"></i></span>
+                    <div style="font-size:1.3rem;font-weight:500;margin-top:8px;">Jumlah Buku</div>
+                    <div style="font-size:2.5rem;font-weight:bold;margin-top:8px;">{{ $jumlahBuku }}</div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            Ini adalah isi dari card. Anda bisa mulai menempatkan komponen Anda di sini.
+        <div class="col-md-4">
+            <div class="card shadow" style="background:#4caf50;color:#fff;">
+                <div class="card-body text-center">
+                    <span style="font-size:2rem;"><i class="fas fa-user-friends"></i></span>
+                    <div style="font-size:1.3rem;font-weight:500;margin-top:8px;">Jumlah Anggota</div>
+                    <div style="font-size:2.5rem;font-weight:bold;margin-top:8px;">{{ $jumlahAnggota }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow" style="background:#fbc02d;color:#222;">
+                <div class="card-body text-center">
+                    <span style="font-size:2rem;"><i class="fas fa-book-reader"></i></span>
+                    <div style="font-size:1.3rem;font-weight:500;margin-top:8px;">Jumlah Peminjaman Aktif</div>
+                    <div style="font-size:2.5rem;font-weight:bold;margin-top:8px;">{{ $jumlahPeminjaman }}</div>
+                </div>
+            </div>
         </div>
     </div>
 @stop

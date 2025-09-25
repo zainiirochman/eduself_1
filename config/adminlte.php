@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Title
@@ -327,7 +326,7 @@ return [
                 [
                     'text' => 'Data Kategori',
                     'url'  => 'admin/categories',
-                    'icon' => 'fas fa-fw fa-book',
+                    'icon' => 'fas fa-fw fa-tags',
                 ],
                 [
                     'text' => 'Data Buku',
@@ -337,12 +336,12 @@ return [
                 [
                     'text' => 'Data Anggota',
                     'url'  => 'admin/anggotas',
-                    'icon' => 'fas fa-fw fa-users',
+                    'icon' => 'fas fa-fw fa-user-friends',
                 ],
                 [
                     'text' => 'Data Peminjaman',
                     'url'  => 'admin/peminjamans',
-                    'icon' => 'fas fa-fw fa-users',
+                    'icon' => 'fas fa-fw fa-book-reader',
                 ],
             ],
         ],
