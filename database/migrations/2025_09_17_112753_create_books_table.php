@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('publisher');
             $table->year('year');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->binary('cover')->nullable(); 
+            // $table->binary('cover')->nullable(); // untuk tipe data longblob
+            $table->string('cover')->nullable(); // untuk tipe data string (path)
             $table->timestamps();
         });
     }

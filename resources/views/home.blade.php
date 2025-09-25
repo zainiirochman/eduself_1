@@ -114,7 +114,14 @@
             <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
                 @foreach($books as $book)
                     <div class="flex flex-col items-center">
-                        <img src="data:image/jpeg;base64,{{ base64_encode($book->cover) }}" alt="Cover Buku" class="w-40 h-56 object-cover rounded-lg shadow-lg mb-2">
+                        <!-- untuk tipe data longblob -->
+                        <!-- <img src="data:image/jpeg;base64,{{ base64_encode($book->cover) }}" alt="Cover Buku" class="w-40 h-56 object-cover rounded-lg shadow-lg mb-2"> -->
+
+                        <!-- untuk tipe data string -->
+                        @if($book->cover)
+                            <img src="{{ asset($book->cover) }}" alt="Cover Buku" class="w-40 h-56 object-cover rounded-lg shadow-lg mb-2">
+                        @endif
+                        
                         <span class="text-white text-medium">{{ $book->title }}</span>
                         <span class="text-white text-sm">{{ $book->category->name ?? 'Kategori' }}</span>
                         <span class="text-gray-300 text-xs">{{ $book->author }}</span>

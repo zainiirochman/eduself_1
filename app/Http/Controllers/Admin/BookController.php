@@ -51,8 +51,15 @@ class BookController extends Controller
 
         $data = $request->except('cover');
 
+        // if ($request->hasFile('cover')) {
+        //     $data['cover'] = file_get_contents($request->file('cover')->getRealPath());
+        // }
+    
         if ($request->hasFile('cover')) {
-            $data['cover'] = file_get_contents($request->file('cover')->getRealPath());
+            $file = $request->file('cover');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('image/books'), $filename);
+            $data['cover'] = 'image/books/' . $filename;
         }
 
         Book::create($data);
@@ -92,16 +99,24 @@ class BookController extends Controller
             'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
         ]);
 
-        // 2. Update data buku dengan data baru
         $book->update($request->all());
 
+        // untuk tipe data longblob
+        // if ($request->hasFile('cover')) {
+        //     $coverData = file_get_contents($request->file('cover')->getRealPath());
+        //     $book->cover = $coverData;
+        //     $book->save();
+        // }
+
+        // untuk tipe data string (path)
         if ($request->hasFile('cover')) {
-            $coverData = file_get_contents($request->file('cover')->getRealPath());
-            $book->cover = $coverData;
+            $file = $request->file('cover');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('image/books'), $filename);
+            $book->cover = 'image/books/' . $filename;
             $book->save();
         }
 
-        // 3. Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('books.index')->with('success', 'Data buku berhasil diperbarui.');
     }
 
