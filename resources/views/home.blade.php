@@ -7,7 +7,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-
     @php
         $anggota = null;
         if(session('anggota_id')) {
@@ -33,13 +32,13 @@
                     </li>
                     <li>
                         <a href="/tentang_kami" class="px-4 py-2 rounded transition
-                            {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Tentang Kami
                         </a>
                     </li>
                     <li>
                         <a href="/perpustakaan" class="px-4 py-2 rounded transition
-                            {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Perpustakaan
                         </a>
                     </li>

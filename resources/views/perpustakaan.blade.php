@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Buku - EduSelf</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
 </head>
 <body class="bg-gray-100">
 
@@ -15,29 +16,29 @@
         }
     @endphp
 
-    <header class="bg-blue-500 text-white py-4 shadow-lg">
+    <header class="bg-[#111A28] text-white py-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3 rounded-full border-2 border-white shadow">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3">
                 <h1 class="text-2xl font-bold tracking-wide">EduSelf</h1>
             </div>
             <nav>
                 <ul class="flex space-x-2 items-center">
                     <li>
                         <a href="/" class="px-4 py-2 rounded transition
-                            {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Home
                         </a>
                     </li>
                     <li>
                         <a href="/tentang_kami" class="px-4 py-2 rounded transition
-                            {{ request()->is('tentang_kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            {{ request()->is('tentang_kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Tentang Kami
                         </a>
                     </li>
                     <li>
                         <a href="/perpustakaan" class="px-4 py-2 rounded transition
-                            {{ request()->is('perpustakaan') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Perpustakaan
                         </a>
                     </li>
@@ -83,7 +84,7 @@
                     placeholder="Cari judul buku..."
                     class="border rounded px-4 py-2 w-full max-w-xs mr-2"
                 >
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button type="submit" class="bg-[#111A28] text-white px-4 py-2 rounded hover:bg-[#111A29]">
                     Cari
                 </button>
             </form>
