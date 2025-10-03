@@ -96,40 +96,59 @@
         </div>
     </section>
 
-    <!-- Section Buku Populer -->
-    <section class="bg-[#1A2536] py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-white text-2xl font-semibold">Buku Populer</h2>
-                <!-- <form class="flex items-center">
-                    <input type="text" placeholder="Cari buku..." class="bg-[#2C374B] text-white px-4 py-2 rounded-l-lg focus:outline-none w-64" />
-                    <button type="submit" class="bg-[#2C374B] px-4 py-2 rounded-r-lg">
-                        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </button>
-                </form> -->
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
-                @foreach($books as $book)
-                    <div class="flex flex-col items-center">
-                        <!-- untuk tipe data longblob -->
-                        <!-- <img src="data:image/jpeg;base64,{{ base64_encode($book->cover) }}" alt="Cover Buku" class="w-40 h-56 object-cover rounded-lg shadow-lg mb-2"> -->
+    @php
+        $categoryGroups = $books->groupBy(function ($book) {
+            return $book->category->name ?? 'Tanpa Kategori';
+        });
+    @endphp
 
-                        <!-- untuk tipe data string -->
-                        @if($book->cover)
-                            <img src="{{ asset($book->cover) }}" alt="Cover Buku" class="w-40 h-56 object-cover rounded-lg shadow-lg mb-2">
-                        @endif
-                        
-                        <span class="text-white text-medium">{{ $book->title }}</span>
-                        <span class="text-white text-sm">{{ $book->category->name ?? 'Kategori' }}</span>
-                        <span class="text-gray-300 text-xs">{{ $book->author }}</span>
+    <section class="bg-[#1A2536] py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-10">
+                <h2 class="text-white text-2xl md:text-3xl font-semibold">Buku Populer</h2>
+                <div class="flex items-center gap-6 text-sm font-semibold text-[#6B7280] border-b border-[#D6DDE8] w-full md:w-auto overflow-x-auto">
+                    <button type="button" class="category-tab pb-3 border-b-2 border-transparent text-white hover:text-[#1A2536] transition"
+                        data-category-tab="all">
+                        Semua
+                    </button>
+                    @foreach($categoryGroups->keys() as $categoryName)
+                        @php
+                            $slug = \Illuminate\Support\Str::slug($categoryName) ?: 'tanpa-kategori';
+                        @endphp
+                        <button type="button" class="category-tab pb-3 border-b-2 border-transparent text-white hover:text-white transition whitespace-nowrap"
+                            data-category-tab="{{ $slug }}">
+                            {{ $categoryName }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 justify-items-center">
+                @foreach($books as $book)
+                    @php
+                        $categoryName = $book->category->name ?? 'Tanpa Kategori';
+                        $categorySlug = \Illuminate\Support\Str::slug($categoryName) ?: 'tanpa-kategori';
+                    @endphp
+                    <div class="flex flex-col items-center bg-[#233044] rounded-xl p-3 w-36 h-52 flex-none snap-start"
+                        data-category-card="{{ $categorySlug }}">
+                        <div class="w-36 h-52 overflow-hidden rounded-lg bg-[#2F3D55] mb-3">
+                            @if($book->cover)
+                                <img src="{{ asset($book->cover) }}" alt="Cover Buku" class="w-36 h-52 object-cover">
+                            @else
+                                <div class="flex items-center justify-center w-36 h-52 text-gray-400 text-sm">
+                                    No Image
+                                </div>
+                            @endif
+                        </div>
+                        <span class="text-white text-sm font-semibold text-center line-clamp-2">{{ $book->title }}</span>
+                        <span class="text-gray-300 text-xs text-center mt-1">{{ $categoryName }}</span>
+                        <span class="text-gray-400 text-[11px] text-center">{{ $book->author }}</span>
                     </div>
                 @endforeach
             </div>
         </div>
     </section>
+
     <footer class="bg-[#87C15A] text-white py-4 text-center">
         <p>&copy; 2025 EduSelf. All rights reserved.</p>
     </footer>
@@ -138,7 +157,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const btn = document.getElementById('userMenuBtn');
             const dropdown = document.getElementById('userMenuDropdown');
-            if(btn && dropdown){
+            if (btn && dropdown) {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     dropdown.classList.toggle('hidden');
@@ -146,6 +165,29 @@
                 document.addEventListener('click', function () {
                     dropdown.classList.add('hidden');
                 });
+            }
+
+            const tabs = document.querySelectorAll('.category-tab');
+            const cards = document.querySelectorAll('[data-category-card]');
+
+            if (tabs.length) {
+                const setActive = (slug) => {
+                    tabs.forEach((tab) => {
+                        const active = tab.dataset.categoryTab === slug;
+                        tab.classList.toggle('border-[#1A2536]', active);
+                        tab.classList.toggle('text-[#1A2536]', active);
+                        tab.classList.toggle('border-transparent', !active);
+                        tab.classList.toggle('text-[#6B7280]', !active);
+                    });
+
+                    cards.forEach((card) => {
+                        const visible = slug === 'all' || card.dataset.categoryCard === slug;
+                        card.classList.toggle('hidden', !visible);
+                    });
+                };
+
+                tabs.forEach((tab) => tab.addEventListener('click', () => setActive(tab.dataset.categoryTab)));
+                setActive('all');
             }
         });
     </script>
