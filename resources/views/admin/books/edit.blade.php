@@ -51,12 +51,12 @@
             </div>
             <div class="form-group">
                 <label>Upload Cover Buku (Max. 1 MB)</label>
-                <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror">
+                <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror" value="{{ old('cover', $book->cover) }}">
                 @error('cover') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label>Deskripsi</label>
-                <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}">
+                <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" value="{{ old('description', $book->description) }}">
                 @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">

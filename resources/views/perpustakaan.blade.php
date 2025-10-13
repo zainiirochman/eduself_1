@@ -133,14 +133,6 @@
     <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full overflow-hidden relative">
         <div class="p-6 md:p-8 flex flex-col md:flex-row items-start gap-6">
             <!-- Cover (left) -->
-            <!-- <div class="flex-shrink-0">
-                <div class="w-36 h-52 overflow-hidden rounded-lg bg-[#2F3D55] mb-3">
-                    <img id="modalCover"
-                         src="{{ asset('image/placeholder-book.png') }}"
-                         alt="Cover"
-                         class="w-full h-full object-cover block">
-                </div>
-            </div> -->
             <div class="flex-shrink-0">
                 <div class="w-36 h-52 overflow-hidden rounded-lg bg-[#2F3D55] mb-3">
                     <img id="modalCover"
