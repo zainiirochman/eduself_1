@@ -40,6 +40,7 @@
                     <th>Pengarang</th>
                     <th>Penerbit</th>
                     <th>Tahun</th>
+                    <th>Ketersediaan</th>
                     <th style="width: 75px">Kelola</th>
                 </tr>
             </thead>
@@ -52,6 +53,7 @@
                     <td>{{ $book->author }}</td>
                     <td>{{ $book->publisher }}</td>
                     <td>{{ $book->year }}</td>
+                    <td>{{ $book->stock }}</td>
                     <td>
                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-success btn-xs"><i class="fa fa-pen"></i></a>
                         <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus data ini?');">

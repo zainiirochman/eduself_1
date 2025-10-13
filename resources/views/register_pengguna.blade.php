@@ -16,7 +16,7 @@
             <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-12 w-12 mr-2 rounded-full">
             <h1 class="text-2xl font-bold text-[#111A28]">Register EduSelf</h1>
         </div>
-        <form action="{{ route('register_pengguna.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('register_pengguna.store') }}" method="POST" class="space-y-5" id="registerForm">
             @csrf
             <div>
                 <label for="name" class="block text-[#111A28] font-semibold mb-2">Nama Lengkap</label>
@@ -52,6 +52,14 @@
                 <input type="password" id="password" name="password" required
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
+
+            <div>
+                <label for="password_confirmation" class="block text-[#111A28] font-semibold mb-2">Konfirmasi Password</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" required
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <p id="passwordMismatch" class="text-[#111A28] text-sm mt-1 hidden">Password tidak sesuai.</p>
+            </div>
+
             <button type="submit"
                 class="w-full bg-[#111A28] text-white font-semibold py-2 rounded hover:bg-blue-700 transition">
                 Register
@@ -62,5 +70,33 @@
             <a href="{{ route('login_pengguna') }}" class="text-[#87C15A] font-semibold hover:underline ml-1">Login</a>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registerForm');
+            const pwd = document.getElementById('password');
+            const pwdConf = document.getElementById('password_confirmation');
+            const err = document.getElementById('passwordMismatch');
+
+            if (form && pwd && pwdConf && err) {
+                form.addEventListener('submit', function (e) {
+                    if (pwd.value !== pwdConf.value) {
+                        e.preventDefault();
+                        err.classList.remove('hidden');
+                    } else {
+                        err.classList.add('hidden');
+                    }
+                });
+
+                // hide error once user fixes input
+                [pwd, pwdConf].forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (pwd.value === pwdConf.value) {
+                            err.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -52,7 +52,20 @@
                 <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror">
                 @error('cover') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}">
+                @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div class="form-group">
+                <label for="stock">Ketersediaan</label>
+                <select name="stock" id="stock" class="form-control @error('stock') is-invalid @enderror" required>
+                    <!-- <option value="">-- Pilih Ketersediaan --</option> -->
+                    <option value="Available" {{ old('stock', $book->stock ?? '') == 'Available' ? 'selected' : '' }}>Available</option>
+                    <option value="Borrowed" {{ old('stock', $book->stock ?? '') == 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
+                </select>
+                @error('stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('books.index') }}" class="btn btn-secondary">Batal</a>
         </form>

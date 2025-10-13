@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             // $table->binary('cover')->nullable(); // untuk tipe data longblob
             $table->string('cover')->nullable(); // untuk tipe data string (path)
+            $table->text('description')->nullable();
+            $table->enum('stock',['Available', 'Borrowed'])->default('Available');
             $table->timestamps();
         });
     }

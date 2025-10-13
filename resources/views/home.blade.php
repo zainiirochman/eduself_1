@@ -14,7 +14,7 @@
         }
     @endphp
 
-    <header class="bg-[#111A28] text-white py-4 shadow-lg">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#111A28] text-white py-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3">
@@ -72,6 +72,9 @@
             </nav>
         </div>
     </header>
+
+    <!-- spacer to offset the fixed header height -->
+    <div class="h-16"></div>
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-[#23485B] to-[#111A28] py-16">

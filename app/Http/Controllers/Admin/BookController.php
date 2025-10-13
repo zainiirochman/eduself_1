@@ -47,6 +47,8 @@ class BookController extends Controller
             'publisher' => 'required|string|max:255',
             'year' => 'required|digits:4|integer|min:1900|max:' . (date('Y')),
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'nullable|string',
+            'stock' => 'required|in:Available,Borrowed',
         ]);
 
         $data = $request->except('cover');
@@ -97,6 +99,8 @@ class BookController extends Controller
             'publisher' => 'required|string|max:255',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'description' => 'nullable|string',
+            'stock' => 'required|in:Available,Borrowed',
         ]);
 
         $book->update($request->all());
