@@ -133,9 +133,20 @@
     <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full overflow-hidden relative">
         <div class="p-6 md:p-8 flex flex-col md:flex-row items-start gap-6">
             <!-- Cover (left) -->
+            <!-- <div class="flex-shrink-0">
+                <div class="w-36 h-52 overflow-hidden rounded-lg bg-[#2F3D55] mb-3">
+                    <img id="modalCover"
+                         src="{{ asset('image/placeholder-book.png') }}"
+                         alt="Cover"
+                         class="w-full h-full object-cover block">
+                </div>
+            </div> -->
             <div class="flex-shrink-0">
-                <div class="w-56 h-80 bg-gray-100 overflow-hidden rounded shadow">
-                    <img id="modalCover" src="{{ asset('image/placeholder-book.png') }}" alt="Cover" class="w-full h-full object-cover">
+                <div class="w-36 h-52 overflow-hidden rounded-lg bg-[#2F3D55] mb-3">
+                    <img id="modalCover"
+                        src="{{ asset('image/placeholder-book.png') }}"
+                        alt="Cover"
+                        class="w-full h-full object-cover object-center block">
                 </div>
             </div>
 
@@ -179,8 +190,8 @@
 
         <!-- Footer controls (bottom-right) -->
         <div class="p-4 border-t flex justify-end gap-3">
-            <a id="modalDetailLink" href="#" class="px-4 py-2 bg-[#111A28] text-white rounded hover:opacity-90">Lihat Halaman Detail</a>
-            <button id="modalCloseFooterBtn" class="px-4 py-2 border rounded">Tutup</button>
+            <!-- <a id="modalDetailLink" href="#" class="px-4 py-2 bg-[#111A28] text-white rounded hover:opacity-90">Lihat Halaman Detail</a> -->
+            <button id="modalCloseFooterBtn" class="px-4 py-2 bg-[#111A28] text-white rounded hover:opacity-90 border rounded">Tutup</button>
         </div>
 
         <!-- small top-right close -->
@@ -215,7 +226,7 @@
             const modalStock = document.getElementById('modalStock');
             const modalDescription = document.getElementById('modalDescription');
             const modalCover = document.getElementById('modalCover');
-            const modalDetailLink = document.getElementById('modalDetailLink');
+            // const modalDetailLink = document.getElementById('modalDetailLink');
             const modalPublisher = document.getElementById('modalPublisher');
 
             function openModal(data) {
@@ -228,7 +239,7 @@
                 modalDescription.textContent = data.description;
                 modalCover.src = data.cover;
                 modalPublisher.textContent = data.publisher || '-';
-                modalDetailLink.href = data.detailUrl || '#';
+                // modalDetailLink.href = data.detailUrl || '#';
 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');

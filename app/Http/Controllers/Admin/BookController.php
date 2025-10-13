@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Intervention\Image\ImageManager;
+
 use App\Models\Book;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -40,7 +42,6 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'id' => 'required|string|unique:books',
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'author' => 'required|string|max:255',
@@ -60,7 +61,12 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('image/books'), $filename);
+            $manager = new ImageManager(
+            new \Intervention\Image\Drivers\Gd\Driver());
+            $img = $manager->read($file)->cover(360, 520);
+            $path = public_path('image/books/' . $filename);
+            $img->save($path);
+            // $file->move(public_path('image/books'), $filename);
             $data['cover'] = 'image/books/' . $filename;
         }
 
@@ -116,7 +122,12 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('image/books'), $filename);
+            $manager = new ImageManager(
+            new \Intervention\Image\Drivers\Gd\Driver());
+            $img = $manager->read($file)->cover(360, 520);
+            $path = public_path('image/books/' . $filename);
+            $img->save($path);
+            // $file->move(public_path('image/books'), $filename);
             $book->cover = 'image/books/' . $filename;
             $book->save();
         }
