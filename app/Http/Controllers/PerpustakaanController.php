@@ -12,14 +12,24 @@ class PerpustakaanController extends Controller
      */
     public function index(Request $request)
     {
-        // $books = Book::all();
-        // return view('perpustakaan', compact('books'));
         $search = $request->input('search');
-        $books = Book::when($search, function($query, $search) {
-            return $query->where('title', 'like', "%{$search}%");
-        })->get();
 
-    return view('perpustakaan', compact('books'));
+        $query = Book::query();
+
+        if ($search) {
+            // ambil semua kolom tabel books lalu cari di semua kolom dengan LIKE
+            $columns = \Schema::getColumnListing('books');
+
+            $query->where(function ($q) use ($columns, $search) {
+                foreach ($columns as $col) {
+                    $q->orWhere($col, 'like', "%{$search}%");
+                }
+            });
+        }
+
+        $books = $query->get();
+
+        return view('perpustakaan', compact('books'));
     }
 
     /**

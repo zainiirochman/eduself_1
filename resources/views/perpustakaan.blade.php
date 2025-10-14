@@ -98,27 +98,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($books as $book)
-                    <tr>
-                        <td class="py-2 px-4 border-b">{{ $book->title }}</td>
-                        <td class="py-2 px-4 border-b">{{ $book->author }}</td>
-                        <td class="py-2 px-4 border-b">{{ $book->year }}</td>
-                        <td class="py-2 px-4 border-b">
-                            <!-- Preview button: data attributes used to populate modal -->
-                            <button type="button"
-                                class="preview-btn text-blue-600 hover:underline"
-                                data-title="{{ e($book->title) }}"
-                                data-author="{{ e($book->author) }}"
-                                data-year="{{ e($book->year) }}"
-                                data-category="{{ e(optional($book->category)->name ?? '-') }}"
-                                data-stock="{{ e($book->stock ?? 'Tersedia') }}"
-                                data-description="{{ e($book->description ?? '-') }}"
-                                data-cover="{{ $book->cover ? asset($book->cover) : asset('image/placeholder-book.png') }}">
-                                Lihat Preview
-                            </button>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @if($books->isEmpty())
+                        <tr>
+                            <td colspan="4" class="py-12 px-4 text-center">
+                                <p class="text-gray-500 text-lg font-semibold">Tidak ada buku ditemukan.</p>
+                                <p class="text-sm text-gray-400 mt-2">Coba kata kunci lain atau kosongkan pencarian untuk melihat semua buku.</p>
+                            </td>
+                        </tr>
+                    @else
+                        @foreach($books as $book)
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ $book->title }}</td>
+                            <td class="py-2 px-4 border-b">{{ $book->author }}</td>
+                            <td class="py-2 px-4 border-b">{{ $book->year }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <button type="button"
+                                    class="preview-btn text-blue-600 hover:underline"
+                                    data-title="{{ e($book->title) }}"
+                                    data-author="{{ e($book->author) }}"
+                                    data-year="{{ e($book->year) }}"
+                                    data-category="{{ e(optional($book->category)->name ?? '-') }}"
+                                    data-stock="{{ e($book->stock ?? 'Tersedia') }}"
+                                    data-description="{{ e($book->description ?? '-') }}"
+                                    data-publisher="{{ e($book->publisher ?? '-') }}"
+                                    data-cover="{{ $book->cover ? asset($book->cover) : asset('image/placeholder-book.png') }}">
+                                    Lihat Preview
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -252,7 +261,7 @@
                         stock: this.dataset.stock || '-',
                         description: this.dataset.description || '-',
                         cover: this.dataset.cover || '{{ asset('image/placeholder-book.png') }}',
-                        publisher: this.dataset.publisher || '',
+                        publisher: this.dataset.publisher || '-',
                         detailUrl: this.dataset.detailUrl || ''
                     };
                     openModal(data);
