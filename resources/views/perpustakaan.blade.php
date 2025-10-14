@@ -126,24 +126,15 @@
                                     Lihat Preview
                                 </button>
 
+                                {{-- tombol Pinjam dipindahkan ke dalam modal --}}
                                 @php
                                     $stockVal = $book->stock;
                                     $isAvailable = is_numeric($stockVal) ? ((int)$stockVal > 0) : (str_contains(strtolower((string)$stockVal),'tersedia') || str_contains(strtolower((string)$stockVal),'avail'));
                                 @endphp
 
-                                @if(session('anggota_id') && $isAvailable)
-                                    <button
-                                        type="button"
-                                        class="borrow-btn ml-3 px-3 py-1 rounded text-sm"
-                                        data-book-id="{{ $book->id }}"
-                                        style="background:#16a34a;color:#fff;border:1px solid #15803d;box-shadow:0 1px 3px rgba(0,0,0,0.15);">
-                                        Pinjam
-                                    </button>
-                                @endif
-
-                                @if(! $isAvailable)
+                                <!-- @if(! $isAvailable)
                                     <span class="ml-3 text-sm text-gray-500">Tidak tersedia</span>
-                                @endif
+                                @endif -->
                             </td>
                         </tr>
                         @endforeach
@@ -211,7 +202,13 @@
 
         <!-- Footer controls (bottom-right) -->
         <div class="p-4 border-t flex justify-end gap-3">
-            <!-- <a id="modalDetailLink" href="#" class="px-4 py-2 bg-[#111A28] text-white rounded hover:opacity-90">Lihat Halaman Detail</a> -->
+            @if($anggota)
+                <!-- tambahkan inline style fallback agar terlihat walau Tailwind belum tercompile -->
+                <button id="modalBorrowBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:opacity-90 hidden" data-book-id=""
+                        style="background:#16a34a;color:#fff;border:1px solid #15803d;box-shadow:0 1px 3px rgba(0,0,0,0.12);">
+                    Pinjam
+                </button>
+            @endif
             <button id="modalCloseFooterBtn" class="px-4 py-2 bg-[#111A28] text-white rounded hover:opacity-90 border rounded">Tutup</button>
         </div>
 
@@ -222,7 +219,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // user menu script (existing) ...
+            // tambahkan ini agar fetch punya CSRF token
+            const csrfToken = '{{ csrf_token() }}';
+
+            // apakah user anggota (untuk JS)
+            const anggotaExists = {!! json_encode(!!$anggota) !!};
+            // user menu script ...
             const btn = document.getElementById('userMenuBtn');
             const dropdown = document.getElementById('userMenuDropdown');
             if(btn && dropdown){
@@ -247,8 +249,8 @@
             const modalStock = document.getElementById('modalStock');
             const modalDescription = document.getElementById('modalDescription');
             const modalCover = document.getElementById('modalCover');
-            // const modalDetailLink = document.getElementById('modalDetailLink');
             const modalPublisher = document.getElementById('modalPublisher');
+            const modalBorrowBtn = document.getElementById('modalBorrowBtn');
 
             function openModal(data) {
                 modalTitle.textContent = data.title;
@@ -260,7 +262,22 @@
                 modalDescription.textContent = data.description;
                 modalCover.src = data.cover;
                 modalPublisher.textContent = data.publisher || '-';
-                // modalDetailLink.href = data.detailUrl || '#';
+
+                const stockVal = (data.stock || '').toString().trim().toLowerCase();
+                const isBorrowed = stockVal === 'borrowed';
+                if (modalBorrowBtn) {
+                    modalBorrowBtn.dataset.bookId = data.bookId || '';
+                    if (isBorrowed) {
+                        modalBorrowBtn.classList.add('hidden');
+                        modalBorrowBtn.disabled = true;
+                    } else if (anggotaExists) {
+                        modalBorrowBtn.classList.remove('hidden');
+                        modalBorrowBtn.disabled = false;
+                    } else {
+                        modalBorrowBtn.classList.add('hidden');
+                        modalBorrowBtn.disabled = true;
+                    }
+                }
 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -282,32 +299,17 @@
                         description: this.dataset.description || '-',
                         cover: this.dataset.cover || '{{ asset('image/placeholder-book.png') }}',
                         publisher: this.dataset.publisher || '-',
-                        detailUrl: this.dataset.detailUrl || ''
+                        bookId: this.dataset.bookId || ''
                     };
                     openModal(data);
                 });
             });
 
-            if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-            if(modalCloseFooterBtn) modalCloseFooterBtn.addEventListener('click', closeModal);
-
-            // close when clicking outside content
-            modal.addEventListener('click', function (e) {
-                if (e.target === modal) closeModal();
-            });
-
-            // close on Escape
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const csrfToken = '{{ csrf_token() }}';
-
-            document.querySelectorAll('.borrow-btn').forEach(btn => {
-                btn.addEventListener('click', async function () {
+            // modal borrow button handler (use same route)
+            if (modalBorrowBtn) {
+                modalBorrowBtn.addEventListener('click', async function () {
                     const bookId = this.dataset.bookId;
+                    if (!bookId) return;
                     if (!confirm('Konfirmasi: pinjam buku ini?')) return;
 
                     try {
@@ -321,37 +323,57 @@
                             body: JSON.stringify({ book_id: bookId })
                         });
 
-                        const data = await res.json();
+                        const payload = await res.json().catch(() => null);
+
                         if (!res.ok) {
-                            alert(data.message || 'Gagal meminjam buku.');
+                            // tampilkan pesan server jika tersedia
+                            alert(payload?.message || payload?.error || ('Gagal meminjam buku. (' + res.status + ')'));
                             return;
                         }
 
-                        alert(data.message || 'Berhasil meminjam buku.');
+                        alert(payload?.message || 'Berhasil meminjam buku.');
 
-                        // Update UI: replace stock text or disable button
-                        // find nearest cell and update text
-                        const cell = btn.closest('td');
-                        if (cell) {
-                            // remove borrow button and show not available
-                            btn.remove();
-                            const span = document.createElement('span');
-                            span.className = 'ml-3 text-sm text-gray-500';
-                            span.textContent = 'Tidak tersedia';
-                            cell.appendChild(span);
+                        // update modal: hide borrow button and show stock status
+                        modalBorrowBtn.classList.add('hidden');
+                        modalBorrowBtn.disabled = true;
+                        modalStock.textContent = payload?.new_stock || 'Tidak tersedia';
 
-                            // optionally update stock column text if present elsewhere
-                            const row = cell.closest('tr');
-                            if (row) {
-                                const stockCell = row.querySelector('td[data-stock-cell]');
-                                if (stockCell) stockCell.textContent = data.new_stock;
+                        // update table row UI...
+                        document.querySelectorAll('button[data-book-id]').forEach(el => {
+                            if (el.dataset.bookId === String(bookId)) {
+                                const row = el.closest('tr');
+                                if (row) {
+                                    const aksiCell = row.querySelector('td:last-child');
+                                    if (aksiCell) {
+                                        const tb = aksiCell.querySelector('.borrow-btn');
+                                        if (tb) tb.remove();
+                                        if (!aksiCell.querySelector('.not-available-label')) {
+                                            const span = document.createElement('span');
+                                            span.className = 'ml-3 text-sm text-gray-500 not-available-label';
+                                            span.textContent = 'Tidak tersedia';
+                                            aksiCell.appendChild(span);
+                                        }
+                                    }
+                                }
                             }
-                        }
+                        });
+
                     } catch (err) {
                         console.error(err);
-                        alert('Terjadi kesalahan, silakan coba lagi.');
+                        alert(err?.message || 'Terjadi kesalahan, silakan coba lagi.');
                     }
                 });
+            }
+
+            if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+            if(modalCloseFooterBtn) modalCloseFooterBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
             });
         });
     </script>
