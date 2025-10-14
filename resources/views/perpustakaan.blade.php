@@ -124,6 +124,24 @@
                                     data-cover="{{ $book->cover ? asset($book->cover) : asset('image/placeholder-book.png') }}">
                                     Lihat Preview
                                 </button>
+
+                                @php
+                                    $stockVal = $book->stock;
+                                    $isAvailable = is_numeric($stockVal) ? ((int)$stockVal > 0) : (str_contains(strtolower((string)$stockVal),'tersedia') || str_contains(strtolower((string)$stockVal),'avail'));
+                                @endphp
+
+                                @if(session('anggota_id') && $isAvailable)
+                                    <button
+                                        type="button"
+                                        class="borrow-btn ml-3 px-3 py-1 bg-green-600 text-white rounded text-sm"
+                                        data-book-id="{{ $book->id }}">
+                                        Pinjam
+                                    </button>
+                                @endif
+
+                                @if(! $isAvailable)
+                                    <span class="ml-3 text-sm text-gray-500">Tidak tersedia</span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -279,6 +297,59 @@
             // close on Escape
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const csrfToken = '{{ csrf_token() }}';
+
+            document.querySelectorAll('.borrow-btn').forEach(btn => {
+                btn.addEventListener('click', async function () {
+                    const bookId = this.dataset.bookId;
+                    if (!confirm('Konfirmasi: pinjam buku ini?')) return;
+
+                    try {
+                        const res = await fetch("{{ route('perpustakaan.borrow') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({ book_id: bookId })
+                        });
+
+                        const data = await res.json();
+                        if (!res.ok) {
+                            alert(data.message || 'Gagal meminjam buku.');
+                            return;
+                        }
+
+                        alert(data.message || 'Berhasil meminjam buku.');
+
+                        // Update UI: replace stock text or disable button
+                        // find nearest cell and update text
+                        const cell = btn.closest('td');
+                        if (cell) {
+                            // remove borrow button and show not available
+                            btn.remove();
+                            const span = document.createElement('span');
+                            span.className = 'ml-3 text-sm text-gray-500';
+                            span.textContent = 'Tidak tersedia';
+                            cell.appendChild(span);
+
+                            // optionally update stock column text if present elsewhere
+                            const row = cell.closest('tr');
+                            if (row) {
+                                const stockCell = row.querySelector('td[data-stock-cell]');
+                                if (stockCell) stockCell.textContent = data.new_stock;
+                            }
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Terjadi kesalahan, silakan coba lagi.');
+                    }
+                });
             });
         });
     </script>

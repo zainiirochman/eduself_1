@@ -24,6 +24,7 @@ Route::post('/login_pengguna', [PenggunaController::class, 'login'])->name('logi
 Route::post('/logout_pengguna', [PenggunaController::class, 'logout'])->name('logout_pengguna');
 
 Route::get('/perpustakaan', [PerpustakaanController::class, 'index']);
+Route::post('/perpustakaan/borrow', [PerpustakaanController::class, 'borrow'])->name('perpustakaan.borrow');
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
