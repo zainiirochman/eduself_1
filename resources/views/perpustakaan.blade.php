@@ -113,7 +113,8 @@
                             <td class="py-2 px-4 border-b">{{ $book->year }}</td>
                             <td class="py-2 px-4 border-b">
                                 <button type="button"
-                                    class="preview-btn text-blue-600 hover:underline"
+                                    class="preview-btn inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                    data-book-id="{{ $book->id }}"
                                     data-title="{{ e($book->title) }}"
                                     data-author="{{ e($book->author) }}"
                                     data-year="{{ e($book->year) }}"
@@ -133,8 +134,9 @@
                                 @if(session('anggota_id') && $isAvailable)
                                     <button
                                         type="button"
-                                        class="borrow-btn ml-3 px-3 py-1 bg-green-600 text-white rounded text-sm"
-                                        data-book-id="{{ $book->id }}">
+                                        class="borrow-btn ml-3 px-3 py-1 rounded text-sm"
+                                        data-book-id="{{ $book->id }}"
+                                        style="background:#16a34a;color:#fff;border:1px solid #15803d;box-shadow:0 1px 3px rgba(0,0,0,0.15);">
                                         Pinjam
                                     </button>
                                 @endif
