@@ -7,6 +7,8 @@ use App\Models\Book;
 use App\Models\Anggota;
 use App\Models\Peminjaman;
 use Carbon\Carbon;
+use App\Models\History;
+use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {
@@ -111,5 +113,46 @@ class PeminjamanController extends Controller
     {
         $peminjaman->delete();
         return redirect()->route('peminjamans.index')->with('success', 'Peminjaman berhasil dihapus.');
+    }
+
+    public function return($id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+        
+        try {
+            // 1. Simpan ke tabel history
+            $inserted = DB::table('history')->insert([
+                'peminjaman_id' => $peminjaman->id,
+                'buku_id' => $peminjaman->buku_id,
+                'anggota_id' => $peminjaman->anggota_id,
+                'tanggal_pinjam' => $peminjaman->tanggal_pinjam,
+                'tanggal_jatuh_tempo' => $peminjaman->tanggal_jatuh_tempo,
+                'tanggal_kembali' => now(),
+                'denda' => $peminjaman->denda ?? 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            
+            \Log::info('Insert berhasil:', ['inserted' => $inserted]);
+            
+            // 2. Update stock buku menjadi Available
+            $buku = Book::find($peminjaman->buku_id);
+            if ($buku) {
+                $buku->stock = 'Available';
+                $buku->save();
+            }
+            
+            // 3. Hapus data peminjaman
+            $peminjaman->delete();
+            
+            return redirect()->route('peminjamans.index')->with('success', 'Buku berhasil dikembalikan dan disimpan ke riwayat.');
+            
+        } catch (\Exception $e) {
+            \Log::error('Error saat return buku:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('peminjamans.index')->with('error', 'Gagal mengembalikan buku: ' . $e->getMessage());
+        }
     }
 }

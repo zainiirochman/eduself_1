@@ -351,9 +351,16 @@ return [
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'root',
+            'text' => 'Root',
             'url' => '/',
             'icon' => 'far fa-fw fa-file',
+            // 'label' => 4,
+            // 'label_color' => 'success',
+        ],
+        [
+            'text' => 'Riwayat Peminjaman',
+            'url' => 'admin/history',
+            'icon' => 'far fa-fw fa-history',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],

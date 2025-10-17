@@ -56,9 +56,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-success btn-sm" title="Kembalikan">
-                                        <i class="fas fa-check"></i>
-                                    </a>
+                                    <form action="{{ route('peminjamans.return', $peminjaman->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm" title="Kembalikan" onclick="return confirm('Konfirmasi pengembalian buku?')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    
                                     <form action="{{ route('peminjamans.destroy', $peminjaman->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
