@@ -15,8 +15,7 @@
             $anggota = \App\Models\Anggota::find(session('anggota_id'));
         }
     @endphp
-
-    <header class="bg-[#111A28] text-white py-4 shadow-lg">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#111A28] text-white py-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3">
@@ -71,13 +70,15 @@
         </div>
     </header>
 
-    <main class="container mx-auto py-8">
+    <div class="h-20"></div>
+
+    <main class="container mx-auto py-8 px-6">
         <div class="bg-white shadow-md rounded px-8 py-6 flex flex-col md:flex-row items-center">
             <div class="md:w-1/3 w-full flex justify-center mb-6 md:mb-0">
                 <img src="{{ asset('image/perpustakaan.png') }}" alt="Foto Perpustakaan" class="rounded-lg shadow-lg w-64 h-64 object-cover">
             </div>
             <div class="md:w-2/3 w-full md:pl-8">
-                <h2 class="text-2xl font-bold mb-2 text-blue-600">Profil Perpustakaan EduSelf</h2>
+                <h2 class="text-2xl font-bold mb-2 text-[#111A28]">Profil Perpustakaan EduSelf</h2>
                 <p class="mb-4 text-gray-700">Perpustakaan EduSelf adalah pusat literasi dan pembelajaran mandiri yang menyediakan berbagai koleksi buku pendidikan, teknologi, dan pengembangan diri. Kami berkomitmen untuk mendukung self-growth dan kemudahan akses informasi bagi seluruh pengguna.</p>
                 <ul class="mb-4 text-gray-700">
                     <li><strong>Alamat:</strong> Jl. Dummy Raya No. 123, Kota Edu, Indonesia</li>
@@ -97,7 +98,7 @@
             </div>
         </div>
         <div class="bg-white shadow-md rounded px-8 py-6 mt-8">
-            <h3 class="text-lg font-semibold mb-4 text-blue-600">Lokasi Perpustakaan EduSelf</h3>
+            <h3 class="text-lg font-semibold mb-4 text-[#111A28]">Lokasi Perpustakaan EduSelf</h3>
             <div class="w-full h-64 rounded overflow-hidden">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1509.9804637651591!2d112.72753586861805!3d-7.316052096908094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1758508700917!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
