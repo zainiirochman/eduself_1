@@ -11,7 +11,12 @@
     <div class="card-header">
         <h3 class="card-title">Daftar Riwayat Pengembalian Buku</h3>
         <div class="card-tools">
-            <form action="{{ route('history.index') }}" method="GET">
+            <a href="{{ route('history.print') }}{{ request('search') ? '?search='.request('search') : '' }}" 
+               target="_blank" 
+               class="btn btn-danger btn-sm mr-2">
+                <i class="fas fa-file-pdf"></i> Print PDF
+            </a>
+            <form action="{{ route('history.index') }}" method="GET" style="display: inline-block;">
                 <div class="input-group input-group-sm" style="width: 250px;">
                     <input type="text" name="search" class="form-control" placeholder="Cari..." value="{{ request('search') }}">
                     <div class="input-group-append">

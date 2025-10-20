@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/peminjamans', PeminjamanController::class);
     Route::post('/admin/peminjamans/{id}/return', [PeminjamanController::class, 'return'])->name('peminjamans.return');
     Route::resource('admin/history', HistoryController::class)->only(['index']);
+    Route::get('admin/history/print', [HistoryController::class, 'print'])->name('history.print');
 });
 
 require __DIR__.'/auth.php';
