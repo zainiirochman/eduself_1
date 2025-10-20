@@ -44,10 +44,13 @@
                     </li>
                     @if($anggota)
                         <li class="relative">
-                            <button id="userMenuBtn" class="px-4 py-2 rounded bg-yellow-300 text-blue-900 font-semibold focus:outline-none shadow hover:bg-yellow-400 transition">
+                            <button id="userMenuBtn" class="px-4 py-2 rounded bg-yellow-300 text-blue-900 font-semibold">
                                 Halo, {{ $anggota->name }}
                             </button>
-                            <div id="userMenuDropdown" class="absolute left-0 mt-2 w-32 bg-white rounded shadow-lg z-10 hidden">
+                            <div id="userMenuDropdown" class="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg z-10 hidden">
+                                <a href="{{ route('peminjaman_aktif') }}" class="block w-full text-blue-600 px-4 py-2 text-left hover:bg-gray-100">
+                                    Peminjaman Aktif
+                                </a>
                                 <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
                                     @csrf
                                     <button type="submit" class="w-full text-red-600 px-4 py-2 text-left hover:bg-gray-100 rounded">Logout</button>
@@ -56,15 +59,8 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ route('login_pengguna') }}" class="px-4 py-2 rounded transition
-                                {{ request()->is('login_pengguna') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
+                            <a href="{{ route('login_pengguna') }}" class="px-4 py-2 rounded bg-yellow-300 text-blue-900 font-semibold hover:bg-yellow-400 transition">
                                 Login
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('register_pengguna') }}" class="px-4 py-2 rounded transition
-                                {{ request()->is('register_pengguna') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">
-                                Register
                             </a>
                         </li>
                     @endif

@@ -23,7 +23,6 @@ Route::get('/register_pengguna', [PenggunaController::class, 'showRegister'])->n
 Route::post('/register_pengguna', [PenggunaController::class, 'register'])->name('register_pengguna.store');
 Route::post('/login_pengguna', [PenggunaController::class, 'login'])->name('login_pengguna.store');
 Route::post('/logout_pengguna', [PenggunaController::class, 'logout'])->name('logout_pengguna');
-
 Route::get('/perpustakaan', [PerpustakaanController::class, 'index']);
 Route::post('/perpustakaan/borrow', [PerpustakaanController::class, 'borrow'])->name('perpustakaan.borrow');
 
@@ -38,5 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/history', HistoryController::class)->only(['index']);
     Route::get('admin/history/print', [HistoryController::class, 'print'])->name('history.print');
 });
+
+Route::get('/peminjaman-aktif', [App\Http\Controllers\PeminjamanAktifController::class, 'index'])->name('peminjaman_aktif');
 
 require __DIR__.'/auth.php';

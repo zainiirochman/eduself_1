@@ -40,6 +40,9 @@
                                 Halo, {{ $anggota->name }}
                             </button>
                             <div id="userMenuDropdown" class="absolute left-0 mt-2 w-32 bg-white rounded shadow-lg z-10 hidden">
+                                <a href="{{ route('peminjaman_aktif') }}" class="block w-full text-blue-600 px-4 py-2 text-left hover:bg-gray-100">
+                                    Peminjaman Aktif
+                                </a>
                                 <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
                                     @csrf
                                     <button type="submit" class="w-full text-red-600 px-4 py-2 text-left hover:bg-gray-100 rounded">Logout</button>
