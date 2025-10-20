@@ -44,16 +44,24 @@
                     </li>
                     @if($anggota)
                         <li class="relative">
-                            <button id="userMenuBtn" class="px-4 py-2 rounded bg-yellow-300 text-blue-900 font-semibold focus:outline-none shadow hover:bg-yellow-400 transition">
-                                Halo, {{ $anggota->name }}
+                            <button id="userMenuBtn" class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
+                                <i class="fas fa-user-circle mr-2"></i>{{ $anggota->name }}
                             </button>
-                            <div id="userMenuDropdown" class="absolute left-0 mt-2 w-32 bg-white rounded shadow-lg z-10 hidden">
-                                <a href="{{ route('peminjaman_aktif') }}" class="block w-full text-blue-600 px-4 py-2 text-left hover:bg-gray-100">
-                                    Peminjaman Aktif
+                            <div id="userMenuDropdown" class="absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl z-10 hidden border border-gray-100 overflow-hidden">
+                                <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3">
+                                    <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
+                                    <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
+                                </div>
+                                <a href="{{ route('peminjaman_aktif') }}" class="flex items-center px-4 py-3 text-[#87C15A] hover:bg-[#87C15A] hover:text-[#23485B] transition-all duration-200 border-b border-gray-100">
+                                    <i class="fas fa-book mr-3"></i>
+                                    <span class="font-medium">Peminjaman Aktif</span>
                                 </a>
                                 <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
                                     @csrf
-                                    <button type="submit" class="w-full text-red-600 px-4 py-2 text-left hover:bg-gray-100 rounded">Logout</button>
+                                    <button type="submit" class="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-all duration-200">
+                                        <i class="fas fa-sign-out-alt mr-3"></i>
+                                        <span class="font-medium">Logout</span>
+                                    </button>
                                 </form>
                             </div>
                         </li>
