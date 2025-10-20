@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduSelf</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
     @php
@@ -25,26 +26,26 @@
             <nav>
                 <ul class="flex space-x-2 items-center">
                     <li>
-                        <a href="/" class="px-4 py-2 rounded hover:bg-[#87C15A] transition
-                            {{ request()->is('/') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">
+                        <a href="/" class="px-4 py-2 rounded transition
+                            {{ request()->is('/') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a href="/tentang_kami" class="px-4 py-2 rounded hover:bg-[#87C15A] transition
+                        <a href="/tentang_kami" class="px-4 py-2 rounded transition
                             {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">
                             Tentang Kami
                         </a>
                     </li>
                     <li>
                         <a href="/perpustakaan" class="px-4 py-2 rounded transition
-                            {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">
+                            {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white ' }}">
                             Perpustakaan
                         </a>
                     </li>
                     @if($anggota)
                         <li class="relative">
-                            <button id="userMenuBtn" class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
+                            <button id="userMenuBtn" class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-md hover:shadow-lg hover:bg-[#87C15A] transition-all duration-200">
                                 <i class="fas fa-user-circle mr-2"></i>{{ $anggota->name }}
                             </button>
                             <div id="userMenuDropdown" class="absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl z-10 hidden border border-gray-100 overflow-hidden">

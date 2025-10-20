@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Kami - EduSelf</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
 
@@ -26,13 +27,13 @@
             <nav>
                 <ul class="flex space-x-2 items-center">
                     <li>
-                        <a href="/" class="px-4 py-2 rounded transition {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-white hover:text-white' }}">Home</a>
+                        <a href="/" class="px-4 py-2 rounded transition {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">Home</a>
                     </li>
                     <li>
                         <a href="/tentang_kami" class="px-4 py-2 rounded transition {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">Tentang Kami</a>
                     </li>
                     <li>
-                        <a href="/perpustakaan" class="px-4 py-2 rounded transition {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">Perpustakaan</a>
+                        <a href="/perpustakaan" class="px-4 py-2 rounded transition {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">Perpustakaan</a>
                     </li>
                     @if($anggota)
                         <li class="relative">

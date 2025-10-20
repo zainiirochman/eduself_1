@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Buku - EduSelf</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
 </head>
 <body class="bg-gray-100">
@@ -26,13 +27,13 @@
                 <ul class="flex space-x-2 items-center">
                     <li>
                         <a href="/" class="px-4 py-2 rounded transition
-                            {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-white hover:text-white' }}">
+                            {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">
                             Home
                         </a>
                     </li>
                     <li>
                         <a href="/tentang_kami" class="px-4 py-2 rounded transition
-                            {{ request()->is('tentang_kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-white hover:text-white' }}">
+                            {{ request()->is('tentang_kami') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">
                             Tentang Kami
                         </a>
                     </li>
@@ -124,7 +125,7 @@
                             <td class="py-2 px-4 border-b text-center">{{ $book->year }}</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <button type="button"
-                                    class="preview-btn inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                    class="preview-btn inline-flex items-center px-3 py-1 bg-[#111A28] text-white rounded hover:bg-[#87C15A]"
                                     data-book-id="{{ $book->id }}"
                                     data-title="{{ e($book->title) }}"
                                     data-author="{{ e($book->author) }}"
@@ -179,32 +180,32 @@
 
                 <dl class="grid grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-700">
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Judul : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Judul</dt>
                         <dd id="modalTitleDetail" class="text-gray-900"></dd>
                     </div>
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Penulis : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Penulis</dt>
                         <dd id="modalAuthor" class="text-gray-900"></dd>
                     </div>
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Penerbit : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Penerbit</dt>
                         <dd id="modalPublisher" class="text-gray-900"></dd>
                     </div>
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Tahun : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Tahun</dt>
                         <dd id="modalYear" class="text-gray-900"></dd>
                     </div>
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Kategori : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Kategori</dt>
                         <dd id="modalCategory" class="text-gray-900"></dd>
                     </div>
                     <div class="flex items-start">
-                        <dt class="font-medium text-gray-600 w-28">Ketersediaan : </dt>
+                        <dt class="font-medium text-gray-600 w-28">Ketersediaan</dt>
                         <dd id="modalStock" class="text-gray-900"></dd>
                     </div>
 
                     <div class="col-span-2 mt-3">
-                        <dt class="font-medium text-gray-600">Deskripsi : </dt>
+                        <dt class="font-medium text-gray-600">Deskripsi</dt>
                         <dd id="modalDescription" class="mt-2 text-sm text-gray-600 text-justify"></dd>
                     </div>
                 </dl>
@@ -216,7 +217,7 @@
             @if($anggota)
                 <!-- tambahkan inline style fallback agar terlihat walau Tailwind belum tercompile -->
                 <button id="modalBorrowBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:opacity-90 hidden" data-book-id=""
-                        style="background:#16a34a;color:#fff;border:1px solid #15803d;box-shadow:0 1px 3px rgba(0,0,0,0.12);">
+                        style="background:#87C15A;color:#fff;">
                     Pinjam
                 </button>
             @endif
