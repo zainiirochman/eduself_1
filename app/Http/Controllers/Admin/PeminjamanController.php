@@ -61,13 +61,40 @@ class PeminjamanController extends Controller
             'buku_id' => 'required|exists:books,id',
             'anggota_id' => 'required|exists:anggotas,id',
             'tanggal_pinjam' => 'required|date',
-            'tanggal_jatuh_tempo' => 'required|date',
             'denda' => 'nullable|integer',
         ]);
 
-        Peminjaman::create($request->all());
+        // Hitung tanggal jatuh tempo otomatis (tanggal pinjam + 7 hari)
+        $tanggalPinjam = \Carbon\Carbon::parse($request->tanggal_pinjam);
+        $tanggalJatuhTempo = $tanggalPinjam->copy()->addDays(7);
 
-        return redirect()->route('peminjamans.index')->with('success', 'Data peminjaman berhasil ditambahkan.');
+        DB::beginTransaction();
+        
+        try {
+            // Simpan data peminjaman
+            Peminjaman::create([
+                'buku_id' => $request->buku_id,
+                'anggota_id' => $request->anggota_id,
+                'tanggal_pinjam' => $request->tanggal_pinjam,
+                'tanggal_jatuh_tempo' => $tanggalJatuhTempo,
+                'denda' => $request->denda ?? 0,
+            ]);
+
+            // Update stock buku menjadi Borrowed
+            $buku = Book::find($request->buku_id);
+            if ($buku) {
+                $buku->stock = 'Borrowed';
+                $buku->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('peminjamans.index')->with('success', 'Data peminjaman berhasil ditambahkan.');
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Gagal menambahkan peminjaman: ' . $e->getMessage());
+        }
     }
 
     /**
