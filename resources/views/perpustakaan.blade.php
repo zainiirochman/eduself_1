@@ -108,10 +108,10 @@
                     @else
                         @foreach($books as $book)
                         <tr>
-                            <td class="py-2 px-4 border-b">{{ $book->title }}</td>
-                            <td class="py-2 px-4 border-b">{{ $book->author }}</td>
-                            <td class="py-2 px-4 border-b">{{ $book->year }}</td>
-                            <td class="py-2 px-4 border-b">
+                            <td class="py-2 px-4 border-b text-center">{{ $book->title }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $book->author }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $book->year }}</td>
+                            <td class="py-2 px-4 border-b text-center">
                                 <button type="button"
                                     class="preview-btn inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                                     data-book-id="{{ $book->id }}"
@@ -350,7 +350,7 @@
                                         if (!aksiCell.querySelector('.not-available-label')) {
                                             const span = document.createElement('span');
                                             span.className = 'ml-3 text-sm text-gray-500 not-available-label';
-                                            span.textContent = 'Tidak tersedia';
+                                            // span.textContent = 'Tidak tersedia';
                                             aksiCell.appendChild(span);
                                         }
                                     }
