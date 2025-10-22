@@ -343,7 +343,7 @@
                             return;
                         }
 
-                        alert(payload?.message || 'Berhasil meminjam buku.');
+                        alert(payload?.message || 'Berhasil. Tunjukkan peminjaman aktif ke petugas.');
 
                         // update modal: hide borrow button and show stock status
                         modalBorrowBtn.classList.add('hidden');
