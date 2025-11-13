@@ -6,123 +6,194 @@
     <title>Tentang Kami - EduSelf</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
 
-    @php
-        $anggota = null;
-        if(session('anggota_id')) {
-            $anggota = \App\Models\Anggota::find(session('anggota_id'));
+    <!-- AOS for animations -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .float-up { animation: floatUp 3s ease-in-out infinite; }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-8px); opacity: .95; }
+            100% { transform: translateY(0); opacity: 1; }
         }
-    @endphp
-    <header class="fixed top-0 left-0 right-0 z-50 bg-[#111A28] text-white py-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3">
-                <h1 class="text-2xl font-bold tracking-wide">
-                    <span class="text-white">Edu</span><span class="text-[#87C15A]">Self</span>
-                </h1>
-            </div>
-            <nav>
-                <ul class="flex space-x-2 items-center">
-                    <li>
-                        <a href="/" class="px-4 py-2 rounded transition {{ request()->is('/') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">Home</a>
-                    </li>
-                    <li>
-                        <a href="/tentang_kami" class="px-4 py-2 rounded transition {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-white hover:text-white' }}">Tentang Kami</a>
-                    </li>
-                    <li>
-                        <a href="/perpustakaan" class="px-4 py-2 rounded transition {{ request()->is('perpustakaan') ? 'bg-white text-[#111A28] font-bold shadow' : 'hover:bg-[#87C15A] hover:text-white' }}">Perpustakaan</a>
-                    </li>
-                    @if($anggota)
-                        <li class="relative">
-                            <button id="userMenuBtn" class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
-                                <i class="fas fa-user-circle mr-2"></i>{{ $anggota->name }}
-                            </button>
-                            <div id="userMenuDropdown" class="absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl z-10 hidden border border-gray-100 overflow-hidden">
-                                <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3">
-                                    <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
-                                    <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
-                                </div>
-                                <a href="{{ route('peminjaman_aktif') }}" class="flex items-center px-4 py-3 text-[#87C15A] hover:bg-[#87C15A] hover:text-[#23485B] transition-all duration-200 border-b border-gray-100">
-                                    <i class="fas fa-book mr-3"></i>
-                                    <span class="font-medium">Peminjaman Aktif</span>
-                                </a>
-                                <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
-                                    @csrf
-                                    <button type="submit" class="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-all duration-200">
-                                        <i class="fas fa-sign-out-alt mr-3"></i>
-                                        <span class="font-medium">Logout</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-                    @else
-                        <li>
-                            <a href="{{ route('login_pengguna') }}" class="px-4 py-2 rounded transition {{ request()->is('login_pengguna') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">Login</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('register_pengguna') }}" class="px-4 py-2 rounded transition {{ request()->is('register_pengguna') ? 'bg-white text-blue-600 font-bold shadow' : 'hover:bg-blue-600 hover:text-white' }}">Register</a>
-                        </li>
-                    @endif
-                </ul>
-            </nav>
-        </div>
-    </header>
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body class="bg-gray-100 antialiased text-gray-800">
 
-    <div class="h-20"></div>
+@php
+    $anggota = null;
+    if(session('anggota_id')) {
+        $anggota = \App\Models\Anggota::find(session('anggota_id'));
+    }
+@endphp
 
-    <main class="container mx-auto py-8 px-6">
-        <div class="bg-white shadow-md rounded px-8 py-6 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/3 w-full flex justify-center mb-6 md:mb-0">
-                <img src="{{ asset('image/perpustakaan.png') }}" alt="Foto Perpustakaan" class="rounded-lg shadow-lg w-64 h-64 object-cover">
+@include('partials.header')
+
+<div class="h-20"></div>
+
+<main class="container mx-auto py-8 px-6">
+    <!-- Hero -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+        <div data-aos="fade-right">
+            <h2 class="text-3xl text-[#87C15A] font-semibold">Tentang EduSelf</h2>
+            <h1 class="text-4xl md:text-5xl font-extrabold mt-3 text-[#111A28] leading-tight">
+                Perpustakaan Digital<br> untuk Semua.
+            </h1>
+            <p class="mt-4 text-gray-600">Kami menyediakan koleksi buku fisik dan digital, layanan peminjaman online, serta dukungan untuk pembelajaran mandiri kapan saja.</p>
+
+            <div class="mt-6 flex gap-4">
+                <a href="/perpustakaan" class="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-lg shimmer">
+                    <i class="fas fa-book-open mr-3"></i> Jelajahi Perpustakaan
+                </a>
+                @unless($anggota)
+                <a href="{{ route('register_pengguna') }}" class="inline-flex items-center px-6 py-3 rounded-lg bg-white text-[#111A28] font-semibold shadow-lg hover:shadow-xl transition">
+                    <i class="fas fa-user-plus mr-3"></i> Daftar Sekarang
+                </a>
+                @endunless
             </div>
-            <div class="md:w-2/3 w-full md:pl-8">
-                <h2 class="text-2xl font-bold mb-2 text-[#111A28]">Profil Perpustakaan EduSelf</h2>
-                <p class="mb-4 text-gray-700">Perpustakaan EduSelf adalah pusat literasi dan pembelajaran mandiri yang menyediakan berbagai koleksi buku pendidikan, teknologi, dan pengembangan diri. Kami berkomitmen untuk mendukung self-growth dan kemudahan akses informasi bagi seluruh pengguna.</p>
-                <ul class="mb-4 text-gray-700">
-                    <li><strong>Alamat:</strong> Jl. Dummy Raya No. 123, Kota Edu, Indonesia</li>
-                    <li><strong>Email:</strong> info@eduself.com</li>
-                    <li><strong>Telepon:</strong> (021) 12345678</li>
-                    <li><strong>Jam Operasional:</strong> Senin - Jumat, 08.00 - 16.00 WIB</li>
-                </ul>
-                <div class="mb-2">
-                    <strong>Fasilitas:</strong>
-                    <ul class="list-disc ml-6">
-                        <li>Ruang baca nyaman & ber-AC</li>
-                        <li>WiFi gratis</li>
-                        <li>Koleksi buku digital & fisik</li>
-                        <li>Layanan peminjaman & pengembalian online</li>
-                    </ul>
+
+            <div class="mt-8 grid grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4 text-center shadow" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-2xl font-bold text-[#111A28] counter" data-target="1200">0</div>
+                    <div class="text-sm text-gray-500">Total Buku</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 text-center shadow" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-2xl font-bold text-[#111A28] counter" data-target="874">0</div>
+                    <div class="text-sm text-gray-500">Anggota</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 text-center shadow" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-2xl font-bold text-[#111A28] counter" data-target="342">0</div>
+                    <div class="text-sm text-gray-500">Transaksi</div>
                 </div>
             </div>
         </div>
-        <div class="bg-white shadow-md rounded px-8 py-6 mt-8">
-            <h3 class="text-lg font-semibold mb-4 text-[#111A28]">Lokasi Perpustakaan EduSelf</h3>
-            <div class="w-full h-64 rounded overflow-hidden">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1509.9804637651591!2d112.72753586861805!3d-7.316052096908094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1758508700917!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        <div class="relative" data-aos="zoom-in">
+            <div class="bg-gradient-to-br from-[#233044] to-[#17202a] rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-center gap-4">
+                    <div class="w-40 h-56 bg-white/5 rounded overflow-hidden flex items-center justify-center text-gray-200 p-3 float-up">
+                        <img src="{{ asset('image/perpustakaan.png') }}" alt="Perpustakaan" class="object-cover w-full h-full rounded">
+                    </div>
+                </div>
+                <div class="mt-6 text-center text-gray-200">
+                    <p class="text-sm">Visi & Misi</p>
+                    <h3 class="text-lg font-semibold text-white">Meningkatkan Akses Literasi</h3>
+                    <p class="text-xs text-gray-300 mt-2">Memberikan kemudahan akses buku berkualitas untuk semua kalangan.</p>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="bg-gray-800 text-white py-4 text-center">
-        <p>&copy; 2025 EduSelf. All rights reserved.</p>
-    </footer>
+    <!-- Profile & Facilities -->
+    <section class="bg-white rounded-lg shadow p-6 mb-8" data-aos="fade-up">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <div class="md:col-span-1 text-center md:text-left">
+                <img src="{{ asset('image/perpustakaan.png') }}" alt="Foto Perpustakaan" class="rounded-lg shadow-lg w-64 h-64 object-cover mx-auto md:mx-0">
+            </div>
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-bold mb-2 text-[#111A28]">Profil Perpustakaan EduSelf</h2>
+                <p class="mb-4 text-gray-700">Perpustakaan EduSelf adalah pusat literasi dan pembelajaran mandiri yang menyediakan berbagai koleksi buku pendidikan, teknologi, dan pengembangan diri. Kami berkomitmen untuk mendukung self-growth dan kemudahan akses informasi bagi seluruh pengguna.</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('userMenuBtn');
-            const dropdown = document.getElementById('userMenuDropdown');
-            if(btn && dropdown){
-                btn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('hidden');
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-semibold text-[#111A28]">Kontak</h4>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Alamat: Jl. Dummy Raya No. 123, Kota Edu<br>
+                            Email: info@eduself.com<br>
+                            Telp: (021) 12345678
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-[#111A28]">Fasilitas</h4>
+                        <ul class="list-disc ml-5 mt-2 text-sm text-gray-600">
+                            <li>Ruang baca nyaman & ber-AC</li>
+                            <li>WiFi gratis</li>
+                            <li>Koleksi buku digital & fisik</li>
+                            <li>Layanan peminjaman & pengembalian online</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location -->
+    <section class="bg-white rounded-lg shadow p-6 mb-8" data-aos="fade-up">
+        <h3 class="text-lg font-semibold mb-4 text-[#111A28]">Lokasi Perpustakaan EduSelf</h3>
+        <div class="w-full h-64 rounded overflow-hidden">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1509.9804637651591!2d112.72753586861805!3d-7.316052096908094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1758508700917!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-gradient-to-r from-[#23485B] to-[#111A28] rounded-lg p-8 text-white shadow-lg" data-aos="fade-up">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <h3 class="text-2xl font-bold">Ingin tahu koleksi lengkap kami?</h3>
+                <p class="mt-2 text-gray-200">Kunjungi perpustakaan dan temukan buku yang kamu butuhkan.</p>
+            </div>
+            <a href="/perpustakaan" class="px-6 py-3 rounded-lg bg-[#87C15A] font-semibold shadow hover:opacity-95 transition">Jelajahi Sekarang</a>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-gradient-to-r from-[#23485B] to-[#111A28] text-white py-6 text-center mt-12">
+    <p class="text-sm">&copy; 2025 EduSelf. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 700 });
+
+    // header dropdown
+    document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('userMenuBtn');
+        const dropdown = document.getElementById('userMenuDropdown');
+        if(btn && dropdown){
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
+            document.addEventListener('click', function () {
+                dropdown.classList.add('hidden');
+            });
+        }
+
+        // counters animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const update = () => {
+                const target = +counter.getAttribute('data-target');
+                const value = +counter.innerText;
+                const increment = Math.ceil(target / 100);
+                if (value < target) {
+                    counter.innerText = Math.min(value + increment, target);
+                    setTimeout(update, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            // trigger when visible (simple)
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) update(), io.disconnect();
                 });
-                document.addEventListener('click', function () {
-                    dropdown.classList.add('hidden');
-                });
-            }
+            }, { threshold: 0.4 });
+            io.observe(counter);
         });
-    </script>
+    });
+</script>
 </body>
 </html>

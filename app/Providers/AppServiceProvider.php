@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        view()->composer('*', function ($view) {
+            $anggota = session('anggota_id') ? \App\Models\Anggota::find(session('anggota_id')) : null;
+            $view->with('anggota', $anggota);
+        });
     }
 }
