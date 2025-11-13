@@ -146,13 +146,20 @@
                 <div class="flex items-center justify-center gap-4">
                     @foreach($booksForView->take(5) as $i => $b)
                         <div class="w-28 h-40 bg-white/5 rounded overflow-hidden transform transition-all duration-500 hover:scale-105 float-up" style="animation-delay: {{ $i * 0.2 }}s;">
-                            @if($b->cover)
-                                <img src="{{ asset($b->cover) }}" alt="cover" class="w-full h-full object-cover">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center text-gray-300 text-sm p-2">
-                                    {{ $b->title }}
-                                </div>
-                            @endif
+                            @php
+                                $coverSrc = asset('image/placeholder-book.png');
+                                if (!empty($b->cover)) {
+                                    if (str_starts_with($b->cover, 'http')) {
+                                        $coverSrc = $b->cover;
+                                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($b->cover)) {
+                                        $coverSrc = asset('storage/' . ltrim($b->cover, '/'));
+                                    } elseif (file_exists(public_path($b->cover))) {
+                                        $coverSrc = asset($b->cover);
+                                    }
+                                }
+                            @endphp
+
+                            <img src="{{ $coverSrc }}" alt="cover" class="w-full h-full object-cover">
                         </div>
                     @endforeach
                 </div>
@@ -192,8 +199,20 @@
             <ul class="space-y-3">
                 @foreach($booksForView->take(3) as $b)
                     <li class="flex items-start gap-3">
-                        <div class="w-12 h-16 bg-gray-100 rounded overflow-hidden flex items-center justify-center text-xs text-gray-500">
-                            {{ $b->cover ? '' : 'No Image' }}
+                        <div class="w-12 h-16 bg-gray-100 rounded overflow-hidden flex items-center justify-center text-xs text-gray-500 overflow-hidden">
+                            @php
+                                $coverSrc = asset('image/placeholder-book.png');
+                                if (!empty($b->cover)) {
+                                    if (\Illuminate\Support\Str::startsWith($b->cover, ['http://','https://'])) {
+                                        $coverSrc = $b->cover;
+                                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($b->cover, '/'))) {
+                                        $coverSrc = asset('storage/' . ltrim($b->cover, '/'));
+                                    } elseif (file_exists(public_path($b->cover))) {
+                                        $coverSrc = asset($b->cover);
+                                    }
+                                }
+                            @endphp
+                            <img src="{{ $coverSrc }}" alt="cover" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <div class="font-medium">{{ $b->title }}</div>
