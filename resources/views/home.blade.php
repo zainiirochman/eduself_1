@@ -48,7 +48,56 @@
     $anggota = session('anggota_id') ? \App\Models\Anggota::find(session('anggota_id')) : null;
 @endphp
 
-@include('partials.header')
+<header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 bg-[#0f2533] text-white py-3 shadow-md">
+    <div class="container mx-auto flex items-center justify-between px-6">
+        <a href="/" class="flex items-center gap-3">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-8 w-8">
+            <div class="leading-tight">
+                <div class="text-lg font-bold"><span class="text-white">Edu</span><span class="text-[#87C15A]">Self</span></div>
+                <div class="text-xs text-gray-200 -mt-1">Perpustakaan Digital</div>
+            </div>
+        </a>
+
+        <nav>
+            <ul class="flex items-center gap-4 text-sm">
+                <li><a href="/" class="px-3 py-1 rounded {{ request()->is('/') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Home</a></li>
+                <li><a href="/perpustakaan" class="px-3 py-1 rounded {{ request()->is('perpustakaan*') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Perpustakaan</a></li>
+                <li><a href="/tentang_kami" class="px-3 py-1 rounded {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Tentang Kami</a></li>
+
+                @if($anggota)
+                    <li class="relative">
+                        <button type="button" id="userMenuBtn" aria-haspopup="true" aria-expanded="false"
+                                class="ml-3 px-4 py-1 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-medium shadow-sm flex items-center">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            <span class="truncate max-w-[160px]">{{ $anggota->name }}</span>
+                        </button>
+
+                        <div id="userMenuDropdown" class="hidden bg-white rounded-lg shadow-lg border border-gray-100 w-56 absolute right-0 mt-2 z-50">
+                            <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3 rounded-t-lg">
+                                <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
+                                <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
+                            </div>
+                            <a href="/peminjaman-aktif" class="flex items-center px-4 py-3 text-[#23485B] hover:bg-[#f7f9fb] border-b">
+                                <i class="fas fa-book mr-3"></i>Peminjaman Aktif
+                            </a>
+                            <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 flex items-center">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                @else
+                    <li><a href="{{ route('login_pengguna') }}" class="ml-3 px-4 py-1 rounded-lg bg-yellow-400 text-[#111A28] font-semibold">Login</a></li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- dynamic spacer: akan di-set sesuai tinggi header -->
+<div id="headerSpacer" class="w-full"></div>
 
 <div class="h-20"></div>
 
@@ -209,18 +258,29 @@
 <script>
     AOS.init({ once: true, duration: 700 });
 
-    // header dropdown
+    // set spacer to header height so content not overlapped
     document.addEventListener('DOMContentLoaded', function () {
+        const header = document.getElementById('mainHeader');
+        const spacer = document.getElementById('headerSpacer');
+        function updateSpacer() {
+            if (header && spacer) {
+                spacer.style.height = header.getBoundingClientRect().height + 'px';
+            }
+        }
+        updateSpacer();
+        window.addEventListener('resize', updateSpacer);
+
+        // simple dropdown toggle (kept minimal)
         const btn = document.getElementById('userMenuBtn');
-        const dropdown = document.getElementById('userMenuDropdown');
-        if (btn && dropdown) {
-            btn.addEventListener('click', function(e) {
+        const dd = document.getElementById('userMenuDropdown');
+        if (btn && dd) {
+            btn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                dropdown.classList.toggle('hidden');
+                dd.classList.toggle('hidden');
             });
-            document.addEventListener('click', function () {
-                dropdown.classList.add('hidden');
-            });
+            dd.addEventListener('click', e => e.stopPropagation());
+            document.addEventListener('click', () => dd.classList.add('hidden'));
+            document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') dd.classList.add('hidden'); });
         }
 
         // counters

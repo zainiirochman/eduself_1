@@ -19,8 +19,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // avoid running session-dependent code in console/artisan context
+        if (app()->runningInConsole()) {
+            view()->composer('*', fn($view) => $view->with('anggota', null));
+            return;
+        }
+
         view()->composer('*', function ($view) {
-            $anggota = session('anggota_id') ? \App\Models\Anggota::find(session('anggota_id')) : null;
+            try {
+                $anggotaId = session()->get('anggota_id');
+                $anggota = $anggotaId ? \App\Models\Anggota::find($anggotaId) : null;
+            } catch (\Throwable $e) {
+                $anggota = null;
+            }
             $view->with('anggota', $anggota);
         });
     }

@@ -11,53 +11,32 @@
     @php
         $anggota = null;
         if(session('anggota_id')) {
-            $anggota = \App\Models\Anggota::find(session('anggota_id'));
+            $anggota = \App\Models\Anggota::find(session('angggota_id'));
         }
     @endphp
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-[#111A28] text-white py-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center px-6">
-            <div class="flex items-center">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-10 w-10 mr-3">
-                <h1 class="text-2xl font-bold tracking-wide">
-                    <span class="text-white">Edu</span><span class="text-[#87C15A]">Self</span>
-                </h1>
-            </div>
+    <header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 bg-[#0f2533] text-white py-3 shadow-md">
+        <div class="container mx-auto flex items-center justify-between px-6">
+            <a href="/" class="flex items-center gap-3">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo EduSelf" class="h-8 w-8">
+                <div class="leading-tight">
+                    <div class="text-lg font-bold"><span class="text-white">Edu</span><span class="text-[#87C15A]">Self</span></div>
+                    <div class="text-xs text-gray-200 -mt-1">Perpustakaan Digital</div>
+                </div>
+            </a>
+
             <nav>
-                <ul class="flex space-x-2 items-center">
-                    <li><a href="/" class="px-4 py-2 rounded hover:bg-[#87C15A] transition">Home</a></li>
-                    <li><a href="/tentang_kami" class="px-4 py-2 rounded hover:bg-[#87C15A] transition">Tentang Kami</a></li>
-                    <li><a href="/perpustakaan" class="px-4 py-2 rounded hover:bg-[#87C15A] transition">Perpustakaan</a></li>
-                    @if($anggota)
-                        <li class="relative">
-                            <button id="userMenuBtn" class="px-6 py-2.5 rounded-lg bg-gradient-to-r text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
-                                <i class="fas fa-user-circle mr-2"></i>{{ $anggota->name }}
-                            </button>
-                            <div id="userMenuDropdown" class="absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl z-10 hidden border border-gray-100 overflow-hidden">
-                                <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3">
-                                    <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
-                                    <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
-                                </div>
-                                <a href="{{ route('peminjaman_aktif') }}" class="flex items-center px-4 py-3 text-[#87C15A] hover:bg-[#87C15A] hover:text-[#23485B] transition-all duration-200 border-b border-gray-100">
-                                    <i class="fas fa-book mr-3"></i>
-                                    <span class="font-medium">Peminjaman Aktif</span>
-                                </a>
-                                <form action="{{ route('logout_pengguna') }}" method="POST" class="block">
-                                    @csrf
-                                    <button type="submit" class="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-all duration-200">
-                                        <i class="fas fa-sign-out-alt mr-3"></i>
-                                        <span class="font-medium">Logout</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-                    @endif
+                <ul class="flex items-center gap-4 text-sm">
+                    <li><a href="/" class="px-3 py-1 rounded {{ request()->is('/') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Home</a></li>
+                    <li><a href="/perpustakaan" class="px-3 py-1 rounded {{ request()->is('perpustakaan*') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Perpustakaan</a></li>
+                    <li><a href="/tentang_kami" class="px-3 py-1 rounded {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Tentang Kami</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <div class="h-16"></div>
+    <!-- dynamic spacer: akan di-set sesuai tinggi header -->
+    <div id="headerSpacer" class="w-full"></div>
 
     <main class="container mx-auto py-8 px-6">
         <div class="bg-white shadow-md rounded-lg p-6">
@@ -120,16 +99,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const header = document.getElementById('mainHeader');
+            const spacer = document.getElementById('headerSpacer');
+            function updateSpacer() {
+                if (header && spacer) spacer.style.height = header.getBoundingClientRect().height + 'px';
+            }
+            updateSpacer();
+            window.addEventListener('resize', updateSpacer);
+
             const btn = document.getElementById('userMenuBtn');
-            const dropdown = document.getElementById('userMenuDropdown');
-            if (btn && dropdown) {
+            const dd = document.getElementById('userMenuDropdown');
+            if (btn && dd) {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    dropdown.classList.toggle('hidden');
+                    dd.classList.toggle('hidden');
                 });
-                document.addEventListener('click', function () {
-                    dropdown.classList.add('hidden');
-                });
+                dd.addEventListener('click', e => e.stopPropagation());
+                document.addEventListener('click', () => dd.classList.add('hidden'));
+                document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') dd.classList.add('hidden'); });
             }
         });
     </script>
