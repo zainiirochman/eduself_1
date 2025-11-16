@@ -1,24 +1,26 @@
 # Gunakan image ini (sudah ada Nginx + PHP)
 FROM richarvey/nginx-php-fpm:3.1.6
 
-# Instal ekstensi pdo_pgsql untuk PostgreSQL
-RUN apk add --no-cache postgresql-dev \
+# --- PERBAIKAN ---
+# Instal ekstensi pdo_pgsql DAN Node.js + NPM
+RUN apk add --no-cache \
+    postgresql-dev \
+    nodejs \
+    npm \
     && docker-php-ext-install pdo_pgsql \
     && apk del postgresql-dev
+# -----------------
 
 # Salin semua kode aplikasi Anda ke dalam server
 COPY . .
 
-# --- TAMBAHAN PENTING ---
-# 1. Instal dependensi NPM & build aset front-end
-# 2. Perbaiki izin (permission) pada folder storage & bootstrap
+# Build aset front-end dan perbaiki izin (permission)
+# Sekarang 'npm' akan ditemukan
 RUN npm install && npm run build \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-# ------------------------
 
 # Konfigurasi Env (sama seperti sebelumnya)
-# 0 = JALANKAN composer install
 ENV SKIP_COMPOSER 0
 ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
