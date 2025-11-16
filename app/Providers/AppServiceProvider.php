@@ -17,11 +17,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(UrlGenerator $url): void
+    public function boot(): void
     {
-        if (env('APP_ENV') == 'production') {
-            $url->forceScheme('https');
-        }
         // avoid running session-dependent code in console/artisan context
         if (app()->runningInConsole()) {
             view()->composer('*', fn($view) => $view->with('anggota', null));
