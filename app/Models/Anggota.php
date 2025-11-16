@@ -19,6 +19,7 @@ class Anggota extends Model
         'jk',
         'prodi',
         'hp',
+        'email',
         'password',
     ];
 }

@@ -13,7 +13,6 @@ class PenggunaController extends Controller
         return view('register_pengguna');
     }
 
-    // Proses register
     public function register(Request $request)
     {
         $request->validate([
@@ -21,7 +20,11 @@ class PenggunaController extends Controller
             'jk'       => 'required|in:Laki-laki,Perempuan',
             'prodi'    => 'required|in:Pend. Teknologi Informasi,Sistem Informasi,Teknik Informatika',
             'hp'       => 'required|unique:anggotas,hp',
+            'email'    => ['nullable','email','regex:/^[^@]+@mhs\.unesa\.ac\.id$/i','unique:anggotas,email'],
             'password' => 'required|string|min:6',
+        ], [
+            'email.regex' => 'Email harus berakhiran @mhs.unesa.ac.id',
+            'email.unique' => 'Email sudah terdaftar.',
         ]);
 
         Anggota::create([
@@ -29,37 +32,35 @@ class PenggunaController extends Controller
             'jk'       => $request->jk,
             'prodi'    => $request->prodi,
             'hp'       => $request->hp,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         return redirect('/login_pengguna')->with('success', 'Registrasi berhasil, silakan login.');
     }
 
-    // Tampilkan form login
     public function showLogin()
     {
         return view('login_pengguna');
     }
 
-    // Proses login
     public function login(Request $request)
     {
         $request->validate([
-            'hp'       => 'required',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
 
-        $anggota = Anggota::where('hp', $request->hp)->first();
+        $anggota = Anggota::where('email', $request->email)->first();
 
         if ($anggota && Hash::check($request->password, $anggota->password)) {
             session(['anggota_id' => $anggota->id]);
             return redirect('/')->with('success', 'Login berhasil!');
         }
 
-        return back()->withErrors(['hp' => 'Nomor HP atau password salah']);
+        return back()->withErrors(['email' => 'Email atau password salah']);
     }
 
-    // Logout
     public function logout()
     {
         session()->forget('anggota_id');

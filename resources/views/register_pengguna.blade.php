@@ -43,6 +43,12 @@
                 </select>
             </div>
             <div>
+                <label for="email" class="block text-[#111A28] font-semibold mb-2">Email Unesa</label>
+                <input name="email" type="email" pattern="^[^@]+@mhs\.unesa\.ac\.id$" required
+                title="Gunakan email unesa"
+                    class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
                 <label for="hp" class="block text-[#111A28] font-semibold mb-2">Nomor HP</label>
                 <input type="text" id="hp" name="hp" required
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">

@@ -19,8 +19,9 @@
         <form action="{{ route('login_pengguna.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
-                <label for="hp" class="block text-[#111A28] font-semibold mb-2">Nomor HP</label>
-                <input type="text" id="hp" name="hp" required
+                <label for="email" class="block text-[#111A28] font-semibold mb-2">Email</label>
+                <input type="email" id="email" name="email" pattern="^[^@]+@mhs\.unesa\.ac\.id$" required
+                title="Gunakan email unesa"
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
