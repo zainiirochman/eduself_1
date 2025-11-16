@@ -47,9 +47,9 @@
                 <tr>
                     <th style="width: 10px">No</th>
                     <th>Nama Anggota</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Program Studi</th>
                     <th>Nomor HP</th>
+                    <th>Program Studi</th>
+                    <th>Email</th>
                     <th style="width: 75px">Kelola</th>
                 </tr>
             </thead>
@@ -58,9 +58,9 @@
                 <tr>
                     <td>{{ $anggotas->firstItem() + $key }}</td>
                     <td>{{ $anggota->name }}</td>
-                    <td>{{ $anggota->jk }}</td>
+                    <td>{{ $anggota->hp }}</td>
                     <td>{{ $anggota->prodi }}</td>
-                    <td>{{ $anggota->hp}}</td>
+                    <td>{{ $anggota->email}}</td>
                     <td>
                         <a href="{{ route('anggotas.edit', $anggota->id) }}" class="btn btn-success btn-xs"><i class="fa fa-pen"></i></a>
                         <form action="{{ route('anggotas.destroy', $anggota->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus data ini?');">
