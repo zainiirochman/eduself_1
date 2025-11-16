@@ -6,15 +6,20 @@ RUN apk add --no-cache postgresql-dev \
     && docker-php-ext-install pdo_pgsql \
     && apk del postgresql-dev
 
+# Salin semua kode aplikasi Anda ke dalam server
 COPY . .
 
-# --- KONFIGURASI PENTING ---
-# 0 = JALANKAN composer install. 1 = LEWATI.
-# Kita set 0 (atau hapus baris ini) agar composer berjalan.
-ENV SKIP_COMPOSER 0
-# ---------------------------
+# --- TAMBAHAN PENTING ---
+# 1. Instal dependensi NPM & build aset front-end
+# 2. Perbaiki izin (permission) pada folder storage & bootstrap
+RUN npm install && npm run build \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# ------------------------
 
-# Konfigurasi sisa
+# Konfigurasi Env (sama seperti sebelumnya)
+# 0 = JALANKAN composer install
+ENV SKIP_COMPOSER 0
 ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
 ENV RUN_SCRIPTS 1
@@ -24,6 +29,6 @@ ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# KEMBALIKAN CMD KE ASLINYA.
-# Script /start.sh akan menangani composer DAN migrasi (via Env Var).
+# Perintah start (sama seperti sebelumnya)
+# (Ini akan menjalankan composer & migrasi via Env Vars)
 CMD ["/start.sh"]
