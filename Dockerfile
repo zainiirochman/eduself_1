@@ -1,5 +1,4 @@
-# FROM richarvey/nginx-php-fpm:3.1.6
-FROM PHP 8.2.4 (cli) (built: Apr  6 2023 04:12:41) (NTS)
+FROM richarvey/nginx-php-fpm:3.1.6
 
 COPY . .
 
