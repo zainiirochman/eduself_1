@@ -2,7 +2,7 @@
     "version": 2,
       "framework": null,
     "functions": {
-        "api/index.php": { "runtime": "vercel-php@0.7.4", "excludeFiles": "{.next,*.cache,node_modules,app}/**"}
+        "api/index.php": { "runtime": "vercel-php@0.7.4", "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"}
     },
     "routes": [
         {
