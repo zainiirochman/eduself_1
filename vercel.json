@@ -4,12 +4,6 @@
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.7.4", "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"}
     },
-    "builds": [
-        {
-        "src": "api/index.php",
-        "use": "vercel-php@0.7.4"
-        }
-    ],
     "routes": [
         {
             "src": "/build/(.*)",
