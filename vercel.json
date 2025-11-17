@@ -6,6 +6,10 @@
     },
     "routes": [
         {
+            "src": "/public/migrate.php",
+            "dest": "/public/migrate.php"
+        },
+        {
             "src": "/build/(.*)",
             "dest": "/public/build/"
         },
