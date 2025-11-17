@@ -31,3 +31,21 @@
 /vendor/*/*/README.md
 /vendor/*/*/CHANGELOG.md
 /vendor/*/*/LICENSE.md
+# Abaikan folder node_modules sepenuhnya
+node_modules
+
+# Abaikan Git dan folder GitHub
+.git
+.github
+
+# Abaikan file log storage
+/storage/logs/*.log
+
+# Abaikan file .env (kita sudah pakai Environment Variables)
+.env
+.env.example
+
+# Abaikan file-file Docker/Render yang mungkin tersisa
+Dockerfile
+.docker
+scripts
