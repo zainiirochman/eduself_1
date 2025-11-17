@@ -1,34 +1,15 @@
 <?php
-// robust loader: cari public/index.php di beberapa lokasi relatif
-$candidates = [
-    __DIR__ . '/../public/index.php',
-    __DIR__ . '/public/index.php',
-    __DIR__ . '/../../public/index.php',
-    __DIR__ . '/../../../public/index.php',
-    __DIR__ . '/../index.php',
-    __DIR__ . '/index.php',
-];
+// cek cepat lokasi public/index.php yang diharapkan
+$public = realpath(__DIR__ . '/../public/index.php');
 
-$found = null;
-foreach ($candidates as $p) {
-    if (file_exists($p)) {
-        $found = $p;
-        break;
-    }
+if (!$public || !is_file($public)) {
+    http_response_code(500);
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "Server misconfiguration: public/index.php not found.\n";
+    echo "Expected at: " . (__DIR__ . '/../public/index.php') . "\n";
+    error_log('public/index.php not found in deployment package: ' . (__DIR__ . '/../public/index.php'));
+    exit(1);
 }
 
-if ($found) {
-    require $found;
-    return;
-}
-
-// jika tidak ditemukan, tampilkan pesan yang jelas agar mudah debug di Vercel
-http_response_code(500);
-header('Content-Type: text/plain; charset=utf-8');
-echo "Server misconfiguration: public/index.php not found.\n";
-echo "Checked the following paths:\n";
-foreach ($candidates as $p) {
-    echo " - $p\n";
-}
-echo "\nPlease ensure the public/ folder (and public/index.php) is included in the deployment or adjust your vercel build script to copy it into the package.\n";
-exit(1);
+// require secepat mungkin (pastikan vendor sudah ter-install saat build)
+require $public;
