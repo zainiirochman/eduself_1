@@ -49,3 +49,60 @@ node_modules
 Dockerfile
 .docker
 scripts
+
+# Ignore admin UI build/output and uploads (large assets)
+/public/admin/
+/public/admin/**
+
+# Common upload folders
+/public/uploads/
+/public/uploads/**
+/storage/app/public/uploads/
+/storage/app/public/uploads/**
+
+# Ignore build/dist outputs
+/dist/
+/build/
+/public/build/
+/public/dist/
+/public/assets/
+/resources/js/admin/dist/
+/resources/js/admin/build/
+
+# Ignore local dev caches & bundler caches
+/.cache/
+/.cache/
+/.parcel-cache/
+/.next/
+/.nuxt/
+/vite/
+
+/# Ignore large binaries, archives, media
+*.psd
+*.ai
+*.eps
+*.mov
+*.mp4
+*.mkv
+*.avi
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.dmg
+*.iso
+
+# Ignore DB local files
+*.sqlite
+*.sqlite3
+
+# Keep ignoring node_modules/vendor already present
+/node_modules
+/vendor
+
+# Keep ignoring storage/logs and temp
+/storage/logs/
+/storage/debugbar/
+/storage/app/
