@@ -1,30 +1,53 @@
-# --- Build Stage ---
-FROM php:8.3-fpm AS build
+# ================================================
+# Stage 1 — Composer Dependencies
+# ================================================
+FROM composer:2 AS composer_stage
+WORKDIR /var/www
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpq-dev libonig-dev libzip-dev libpng-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
 
 # Copy project
-WORKDIR /var/www
 COPY . .
 
-# Install packages
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer dump-autoload --optimize
 
-# Run Laravel optimization
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
 
-# --- Production Stage ---
-FROM nginx:stable
+# ================================================
+# Stage 2 — PHP 8.2 + Nginx + Supervisor
+# ================================================
+FROM php:8.2-fpm
 
-COPY --from=build /var/www/public /var/www/public
-COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    nginx \
+    supervisor \
+    git \
+    curl \
+    zip \
+    unzip \
+    libpq-dev \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev && \
+    docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
+
+WORKDIR /var/www
+
+# Copy Laravel application from build stage
+COPY --from=composer_stage /var/www /var/www
+
+# Copy Nginx config
+COPY deploy/nginx.conf /etc/nginx/sites-enabled/default
+
+# Copy supervisor config
+COPY deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Laravel storage + cache folder permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 80
+
+CMD ["/usr/bin/supervisord"]
