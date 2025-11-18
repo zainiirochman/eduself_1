@@ -1,19 +1,3 @@
-# ============================================
-# Stage 1 — Build composer dependencies
-# ============================================
-FROM composer:2 AS vendor
-WORKDIR /app
-
-COPY composer.json composer.lock ./
-RUN composer install --ignore-platform-reqs --no-dev --no-interaction --prefer-dist
-
-COPY . .
-RUN composer dump-autoload --optimize
-
-
-# ============================================
-# Stage 2 — Production (PHP 8.2 + nginx)
-# ============================================
 FROM php:8.2-fpm
 
 # Install dependencies
@@ -32,17 +16,22 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www
 
-# Copy source code + vendor from build stage
+# Copy whole Laravel project first
 COPY . .
-COPY --from=vendor /app/vendor ./vendor
 
-# Copy nginx + supervisor config
-COPY deploy/nginx.conf /etc/nginx/sites-enabled/default
-COPY deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Permissions
+# Install vendor (now artisan exists)
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Laravel permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache
+
+# Copy Nginx + Supervisor config
+COPY deploy/nginx.conf /etc/nginx/sites-enabled/default
+COPY deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
 
