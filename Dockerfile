@@ -27,7 +27,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Laravel permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 777 storage bootstrap/cache
 
 # Copy Nginx + Supervisor config
 COPY deploy/nginx.conf /etc/nginx/sites-enabled/default
