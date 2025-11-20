@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'EduSelf',
     'title_prefix' => '',
-    'title_postfix' => '',
+    'title_postfix' => ' - Library System',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'logo' => '<b>EduSelf</b>',
+    'logo' => '<b>Edu</b>Self',
     'logo_img' => 'image/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -86,13 +86,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             'path' => 'image/logo.png',
-            'alt' => 'Auth Logo',
-            'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'alt' => 'EduSelf Logo',
+            'class' => 'mb-3',
+            'width' => 80,
+            'height' => 80,
         ],
     ],
 
@@ -116,7 +116,7 @@ return [
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'image/logo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'alt' => 'EduSelf Preloader',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -136,10 +136,10 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-info',
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
     'usermenu_profile_url' => false,
 
     /*
@@ -156,8 +156,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -173,12 +173,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
-    'classes_auth_header' => '',
+    'classes_auth_card' => 'card-outline card-success',
+    'classes_auth_header' => 'text-center',
     'classes_auth_body' => '',
-    'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_footer' => 'text-center',
+    'classes_auth_icon' => 'fa-lg',
+    'classes_auth_btn' => 'btn-flat btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -193,14 +193,14 @@ return [
     */
 
     'classes_body' => '',
-    'classes_brand' => '',
-    'classes_brand_text' => '',
+    'classes_brand' => 'navbar-dark',
+    'classes_brand_text' => 'font-weight-light',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-success elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-dark navbar-success',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -285,7 +285,8 @@ return [
     */
 
     'laravel_asset_bundling' => false,
-    'laravel_css_path' => 'css/app.css',
+    // 'laravel_css_path' => 'css/app.css',
+    'laravel_css_path' => 'css/custom-adminlte.css',
     'laravel_js_path' => 'js/app.js',
 
     /*
@@ -315,135 +316,53 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Cari Menu',
         ],
         [
-        'text'        => 'Dashboard',
-        'url'         => 'admin/dashboard',
-        'icon'        => 'fas fa-fw fa-tachometer-alt',
+            'text' => 'Dashboard',
+            'url' => 'admin/dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'icon_color' => 'cyan',
+        ],
+        ['header' => 'KELOLA DATA'],
+        [
+            'text' => 'Data Kategori',
+            'url' => 'admin/categories',
+            'icon' => 'fas fa-fw fa-tags',
+            'icon_color' => 'warning',
         ],
         [
-            'text' => 'Kelola Data',
-            'icon' => 'fas fa-fw fa-database',
-            'submenu' => [
-                [
-                    'text' => 'Data Kategori',
-                    'url'  => 'admin/categories',
-                    'icon' => 'fas fa-fw fa-tags',
-                ],
-                [
-                    'text' => 'Data Buku',
-                    'url'  => 'admin/books',
-                    'icon' => 'fas fa-fw fa-book',
-                ],
-                [
-                    'text' => 'Data Anggota',
-                    'url'  => 'admin/members',
-                    'icon' => 'fas fa-fw fa-user-friends',
-                ],
-                [
-                    'text' => 'Data Peminjaman',
-                    'url'  => 'admin/loans',
-                    'icon' => 'fas fa-fw fa-book-reader',
-                ],
-            ],
+            'text' => 'Data Buku',
+            'url' => 'admin/books',
+            'icon' => 'fas fa-fw fa-book',
+            'icon_color' => 'primary',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'Data Anggota',
+            'url' => 'admin/members',
+            'icon' => 'fas fa-fw fa-user-friends',
+            'icon_color' => 'success',
         ],
         [
-            'text' => 'Root',
-            'url' => '/',
-            'icon' => 'far fa-fw fa-file',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'text' => 'Data Peminjaman',
+            'url' => 'admin/loans',
+            'icon' => 'fas fa-fw fa-book-reader',
+            'icon_color' => 'info',
         ],
+        ['header' => 'LAPORAN'],
         [
             'text' => 'Riwayat Peminjaman',
             'url' => 'admin/history',
-            'icon' => 'far fa-fw fa-history',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'icon' => 'fas fa-fw fa-history',
+            'icon_color' => 'purple',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'PENGATURAN'],
         [
             'text' => 'Kelola Admin',
-            'url'  => 'admin/users',
-            'icon' => 'fas fa-fw fa-users',
+            'url' => 'admin/users',
+            'icon' => 'fas fa-fw fa-user-shield',
+            'icon_color' => 'red',
         ],
-        // [
-        //     'text' => 'Profil',
-        //     'icon' => 'fas fa-fw fa-user',
-        //     'submenu' => [
-        //         [
-        //             'text'    => 'Edit Profil Admin',
-        //             'route'   => 'profile.edit',
-        //             'icon'    => 'fas fa-fw fa-user-cog',
-        //         ],
-                
-        //     ]
-        // ],
-        // [
-        //     'text' => 'change_password',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        // [
-        //     'text' => 'multilevel',
-        //     'icon' => 'fas fa-fw fa-share',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //             'submenu' => [
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                 ],
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                     'submenu' => [
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                     ],
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //     ],
-        // ],
-        // ['header' => 'labels'],
-        // [
-        //     'text' => 'important',
-        //     'icon_color' => 'red',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'warning',
-        //     'icon_color' => 'yellow',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'information',
-        //     'icon_color' => 'cyan',
-        //     'url' => '#',
-        // ],
     ],
 
     /*
@@ -517,7 +436,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -527,12 +446,12 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                 ],
             ],
         ],

@@ -1,0 +1,114 @@
+/* EduSelf Custom Colors */
+:root {
+    --eduself-green: #87C15A;
+    --eduself-dark: #192334;
+    --eduself-light: #f8f9fa;
+}
+
+/* Sidebar Background */
+.sidebar-dark-success {
+    background-color: var(--eduself-dark) !important;
+}
+
+/* Sidebar Menu Items */
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: var(--eduself-green) !important;
+    color: #fff !important;
+}
+
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link:hover {
+    background-color: rgba(135, 193, 90, 0.2) !important;
+}
+
+/* Top Navbar */
+.navbar-success {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Brand Logo Background */
+.brand-link {
+    background-color: var(--eduself-dark) !important;
+    border-bottom: 1px solid var(--eduself-green) !important;
+}
+
+/* User Menu Header */
+.usermenu_header.bg-info {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Buttons */
+.btn-success {
+    background-color: var(--eduself-green) !important;
+    border-color: var(--eduself-green) !important;
+}
+
+.btn-success:hover {
+    background-color: #6fa847 !important;
+    border-color: #6fa847 !important;
+}
+
+/* Card Headers */
+.card-success:not(.card-outline) > .card-header {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Links */
+a {
+    color: var(--eduself-green) !important;
+}
+
+a:hover {
+    color: #6fa847 !important;
+}
+
+/* Pagination */
+.page-item.active .page-link {
+    background-color: var(--eduself-green) !important;
+    border-color: var(--eduself-green) !important;
+}
+
+/* Form Controls Focus */
+.form-control:focus {
+    border-color: var(--eduself-green) !important;
+    box-shadow: 0 0 0 0.2rem rgba(135, 193, 90, 0.25) !important;
+}
+
+/* Badges */
+.badge-success {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Info Box */
+.info-box-icon.bg-success {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Small Box */
+.small-box.bg-success {
+    background-color: var(--eduself-green) !important;
+}
+
+/* Preloader */
+.preloader {
+    background-color: var(--eduself-dark) !important;
+}
+
+/* Sidebar Search */
+.sidebar-dark-success .form-control-sidebar {
+    background-color: rgba(135, 193, 90, 0.1) !important;
+    border: 1px solid rgba(135, 193, 90, 0.3) !important;
+}
+
+.sidebar-dark-success .form-control-sidebar:focus {
+    border: 1px solid var(--eduself-green) !important;
+}
+
+/* Menu Header */
+.nav-header {
+    color: var(--eduself-green) !important;
+}
+
+/* Scrollbar */
+.sidebar-dark-success ::-webkit-scrollbar-thumb {
+    background-color: var(--eduself-green) !important;
+}

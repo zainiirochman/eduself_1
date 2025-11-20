@@ -13,12 +13,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
-    // public function boot(): void
-    // {
-    //     if ($this->app->environment('production')) {
-    //         \URL::forceScheme('https');
-    //     }
-    // }
 
     /**
      * Bootstrap any application services.
@@ -28,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         // inject favicon ke adminlte head config setelah app boot (Request tersedia)
         config([
             'adminlte.head' => [
+                '<link rel="stylesheet" href="' . asset('css/custom-adminlte.css') . '">',
                 '<link rel="icon" href="' . asset('favicon.ico') . '" type="image/x-icon" />',
                 '<link rel="icon" type="image/png" sizes="96x96" href="' . asset('favicon/favicon-96x96.png') . '" />',
                 '<link rel="icon" type="image/svg+xml" href="' . asset('favicon/favicon.svg') . '" />',
