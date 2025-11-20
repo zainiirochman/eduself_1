@@ -17,10 +17,10 @@ class PenggunaController extends Controller
     {
         $request->validate([
             'name'     => 'required|string|max:255',
-            'gender'       => 'required|in:Laki-laki,Perempuan',
+            'gender'   => 'required|in:Laki-laki,Perempuan',
             'prodi'    => 'required|in:Pend. Teknologi Informasi,Sistem Informasi,Teknik Informatika',
-            'hp'       => 'required|unique:anggotas,hp',
-            'email'    => ['nullable','email','regex:/^[^@]+@mhs\.unesa\.ac\.id$/i','unique:anggotas,email'],
+            'hp'       => 'required|unique:members,hp',
+            'email'    => ['nullable','email','regex:/^[^@]+@mhs\.unesa\.ac\.id$/i','unique:members,email'],
             'password' => 'required|string|min:6',
         ], [
             'email.regex' => 'Email harus berakhiran @mhs.unesa.ac.id',
