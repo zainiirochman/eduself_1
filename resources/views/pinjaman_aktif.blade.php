@@ -71,13 +71,13 @@
                     <tbody>
                         @forelse($loans as $index => $p)
                             @php
-                                $jatuhTempo = \Carbon\Carbon::parse($p->tanggal_jatuh_tempo);
+                                $jatuhTempo = \Carbon\Carbon::parse($p->due_date);
                                 $isOverdue = $jatuhTempo->isPast();
                             @endphp
                             <tr class="hover:bg-gray-50">
                                 <td class="py-3 px-4 border text-center">{{ $index + 1 }}</td>
                                 <td class="py-3 px-4 border">{{ $p->buku->title ?? '-' }}</td>
-                                <td class="py-3 px-4 border text-center">{{ \Carbon\Carbon::parse($p->tanggal_pinjam)->format('d/m/Y') }}</td>
+                                <td class="py-3 px-4 border text-center">{{ \Carbon\Carbon::parse($p->loan_date)->format('d/m/Y') }}</td>
                                 <td class="py-3 px-4 border text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
                                 <td class="py-3 px-4 border text-center">
                                     @if($isOverdue)
@@ -86,7 +86,7 @@
                                         <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Aktif</span>
                                     @endif
                                 </td>
-                                <td class="py-3 px-4 border text-center">Rp {{ number_format($p->denda ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-3 px-4 border text-center">Rp {{ number_format($p->fine ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -131,7 +131,7 @@
                                 <td class="py-3 px-4 border">{{ $p->buku->title ?? '-' }}</td>
                                 <td class="py-3 px-4 border text-center">{{ \Carbon\Carbon::parse($p->loan_date)->format('d/m/Y') }}</td>
                                 <td class="py-3 px-4 border text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
-                                <td class="py-3 px-4 border text-center">Rp {{ number_format($p->denda ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-3 px-4 border text-center">Rp {{ number_format($p->fine ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         @empty
                             <tr>

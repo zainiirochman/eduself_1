@@ -10,8 +10,8 @@ class DashboardController extends Controller
     public function index()
     {
         $jumlahBuku = \App\Models\Book::count();
-        $jumlahAnggota = \App\Models\Anggota::count();
-        $jumlahPeminjaman = \App\Models\Peminjaman::count();
+        $jumlahAnggota = \App\Models\Member::count();
+        $jumlahPeminjaman = \App\Models\Loan::count();
         return view('admin.dashboard', compact('jumlahBuku', 'jumlahAnggota', 'jumlahPeminjaman'));
     }
 }

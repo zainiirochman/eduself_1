@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Tambah member')
+@section('title', 'Tambah Anggota')
 
 @section('content_header')
-    <h1>Tambah member Baru</h1>
+    <h1>Tambah Anggota Baru</h1>
 @stop
 
 @section('content')
@@ -11,13 +11,8 @@
     <div class="card-body">
         <form action="{{ route('members.store') }}" method="POST">
             @csrf
-            <!-- <div class="form-group">
-                <label for="name">Nama member</label>
-                <input type="text" name="name" value="{{ old('name') }}">
-                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div> -->
             <div class="form-group">
-                <label>Nama member</label>
+                <label>Nama Anggota</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
