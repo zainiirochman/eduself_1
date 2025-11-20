@@ -342,6 +342,11 @@ return [
                     'icon' => 'fas fa-fw fa-user-friends',
                 ],
                 [
+                    'text' => 'Data Member',
+                    'url'  => 'admin/members',
+                    'icon' => 'fas fa-fw fa-user-friends',
+                ],
+                [
                     'text' => 'Data Peminjaman',
                     'url'  => 'admin/peminjamans',
                     'icon' => 'fas fa-fw fa-book-reader',

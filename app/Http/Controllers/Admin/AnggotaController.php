@@ -34,7 +34,7 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'jk' => 'required|in:Laki-laki,Perempuan',
             'prodi' => 'required|in:Pend. Teknologi Informasi,Sistem Informasi, Teknik Informatika',

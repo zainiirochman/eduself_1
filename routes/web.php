@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AnggotaController;
+
+use App\Http\Controllers\Admin\MemberController;
+
 use App\Http\Controllers\Admin\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PerpustakaanController;
@@ -32,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/books', BookController::class);
     Route::resource('admin/categories', CategoryController::class);
     Route::resource('admin/anggotas', AnggotaController::class);
+    Route::resource('admin/members', MemberController::class);
     Route::resource('admin/peminjamans', PeminjamanController::class);
     Route::post('/admin/peminjamans/{id}/return', [PeminjamanController::class, 'return'])->name('peminjamans.return');
     Route::resource('admin/history', HistoryController::class)->only(['index']);
