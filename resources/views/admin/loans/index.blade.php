@@ -47,7 +47,7 @@
                                 <td>{{ \Carbon\Carbon::parse($loan->loan_date)->format('d/M/Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($loan->due_date)->format('d/M/Y') }}</td>
                                 <td>
-                                    @if($loan->denda > 0)
+                                    @if($loan->fine > 0)
                                         <span class="badge badge-danger">Rp. {{ number_format($loan->fine, 0, ',', '.') }}</span>
                                         <br>
                                         Terlambat: {{ ceil($loan->fine / 10000) }} Hari

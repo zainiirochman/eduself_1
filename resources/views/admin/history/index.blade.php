@@ -79,11 +79,11 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $history->buku->title ?? '-' }}</td>
-                            <td>{{ $history->anggota->name ?? '-' }}</td>
-                            <td>{{ \Carbon\Carbon::parse($history->tanggal_pinjam)->format('d/m/Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($history->tanggal_jatuh_tempo)->format('d/m/Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($history->tanggal_kembali)->format('d/m/Y H:i') }}</td>
-                            <td>Rp {{ number_format($history->denda, 0, ',', '.') }}</td>
+                            <td>{{ $history->member->name ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($history->loan_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($history->due_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($history->return_date)->format('d/m/Y H:i') }}</td>
+                            <td>Rp {{ number_format($history->fine, 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>

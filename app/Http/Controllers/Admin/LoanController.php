@@ -29,7 +29,7 @@ class LoanController extends Controller
         $loans = $query->get();
 
         foreach ($loans as $loan) {
-            $jatuhTempo = \Carbon\Carbon::parse($loan->dueDate);
+            $jatuhTempo = \Carbon\Carbon::parse($loan->due_date);
             $hariTerlambat = $jatuhTempo->diffInDays(now(), false);
             $denda = $hariTerlambat > 0 ? $hariTerlambat * 10000 : 0;
             $fine = (int) $denda; 
@@ -154,7 +154,7 @@ class LoanController extends Controller
                 'loan_date' => $loan->loan_date,
                 'due_date' => $loan->due_date,
                 'return_date' => now(),
-                'fine' => $loan->denda ?? 0,
+                'fine' => $loan->fine ?? 0,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

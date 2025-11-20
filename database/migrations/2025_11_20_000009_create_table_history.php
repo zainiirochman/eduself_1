@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('peminjaman_id')->nullable();
+            $table->unsignedBigInteger('loan_id');
             $table->unsignedBigInteger('buku_id');
-            $table->unsignedBigInteger('anggota_id');
-            $table->date('tanggal_pinjam');
-            $table->date('tanggal_jatuh_tempo');
-            $table->timestamp('tanggal_kembali');
-            $table->integer('denda')->default(0);
+            $table->unsignedBigInteger('member_id');
+            $table->date('loan_date');
+            $table->date('due_date');
+            $table->timestamp('return_date');
+            $table->unsignedInteger('fine')->default(0);
             $table->timestamps();
             
             // Foreign keys (tanpa cascade delete untuk peminjaman_id karena akan dihapus)
             $table->foreign('buku_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
             // Tidak ada foreign key untuk anggota_id dan peminjaman_id
         });
     }

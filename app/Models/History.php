@@ -10,15 +10,14 @@ class History extends Model
     use HasFactory;
 
     protected $table = 'history';
-
     protected $fillable = [
-        'peminjaman_id',
+        'loan_id',
         'buku_id',
-        'anggota_id',
-        'tanggal_pinjam',
-        'tanggal_jatuh_tempo',
-        'tanggal_kembali',
-        'denda'
+        'member_id',
+        'loan_date',
+        'due_date',
+        'return_date',
+        'fine'
     ];
 
     public function buku()
@@ -26,8 +25,8 @@ class History extends Model
         return $this->belongsTo(Book::class, 'buku_id');
     }
 
-    public function anggota()
+    public function member()
     {
-        return $this->belongsTo(Anggota::class, 'anggota_id');
+        return $this->belongsTo(Member::class, 'member_id');
     }
 }
