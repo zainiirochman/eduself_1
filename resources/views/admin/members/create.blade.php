@@ -3,56 +3,118 @@
 @section('title', 'Tambah Anggota')
 
 @section('content_header')
-    <h1>Tambah Anggota Baru</h1>
+    <h1 class="animate-slide-in">Tambah Anggota Baru</h1>
 @stop
 
 @section('content')
-<div class="card">
+<div class="card shadow-lg animate-fade-in" style="border-radius:10px;overflow:hidden;">
+    <div class="card-header bg-blue-eduself text-white" style="border-bottom:3px solid #192334;">
+        <h3 class="card-title" style="font-weight:600;"><i class="fas fa-user-plus mr-2"></i>Form Anggota</h3>
+        <div class="card-tools">
+            <a href="{{ route('members.index') }}" class="btn btn-light btn-sm btn-animated">
+                <i class="fas fa-arrow-left mr-1"></i>Kembali
+            </a>
+        </div>
+    </div>
     <div class="card-body">
-        <form action="{{ route('members.store') }}" method="POST">
+        <form action="{{ route('members.store') }}" method="POST" class="animate-fade-in">
             @csrf
             <div class="form-group">
-                <label>Nama Anggota</label>
-                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                <label class="font-weight-500">Nama Anggota</label>
+                <input type="text" name="name" class="form-control input-animated @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Masukkan nama lengkap" required>
                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <div class="form-group">
-                <label for="gender">Jenis Kelamin</label>
-                <select name="gender" id="gender" class="form-control @error('gender') is-invalid @enderror" required>
-                    <option value="">-- Pilih Jenis Kelamin --</option>
-                    <option value="Laki-laki" {{ old('gender', $member->gender ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                    <option value="Perempuan" {{ old('gender', $member->gender ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                </select>
-                @error('gender') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-500">Jenis Kelamin</label>
+                    <select name="gender" class="form-control input-animated @error('gender') is-invalid @enderror" required>
+                        <option value="">-- Pilih Jenis Kelamin --</option>
+                        <option value="Laki-laki" {{ old('gender') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="Perempuan" {{ old('gender') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
+                    @error('gender') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-500">Program Studi</label>
+                    <select name="prodi" class="form-control input-animated @error('prodi') is-invalid @enderror" required>
+                        <option value="">-- Pilih Program Studi --</option>
+                        <option value="Pend. Teknologi Informasi" {{ old('prodi') == 'Pend. Teknologi Informasi' ? 'selected' : '' }}>Pend. Teknologi Informasi</option>
+                        <option value="Sistem Informasi" {{ old('prodi') == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi</option>
+                        <option value="Teknik Informatika" {{ old('prodi') == 'Teknik Informatika' ? 'selected' : '' }}>Teknik Informatika</option>
+                    </select>
+                    @error('prodi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
             </div>
-            <div class="form-group">
-                <label for="prodi">Program Studi</label>
-                <select name="prodi" id="prodi" class="form-control @error('prodi') is-invalid @enderror" required>
-                    <option value="">-- Pilih Program Studi --</option>
-                    <option value="Pend. Teknologi Informasi" {{ old('prodi', $member->prodi ?? '') == 'Pend. Teknologi Informasi' ? 'selected' : '' }}>Pend. Teknologi Informasi</option>
-                    <option value="Sistem Informasi" {{ old('prodi', $member->prodi ?? '') == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi</option>
-                    <option value="Teknik Informatika" {{ old('prodi', $member->prodi ?? '') == 'Teknik Informatika' ? 'selected' : '' }}>Teknik Informatika</option>
-                </select>
-                @error('prodi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-500">Email Unesa</label>
+                    <input type="email" name="email" class="form-control input-animated @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="contoh@mhs.unesa.ac.id" required>
+                    @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-500">Nomor HP</label>
+                    <input type="text" name="hp" class="form-control input-animated @error('hp') is-invalid @enderror" value="{{ old('hp') }}" placeholder="08xxxxxxxxxx" required>
+                    @error('hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
             </div>
+
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
-                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-            <div class="form-group">
-                <label>Nomor HP</label>
-                <input type="text" name="hp" class="form-control @error('hp') is-invalid @enderror" value="{{ old('hp') }}">
-                @error('hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
+                <label class="font-weight-500">Password</label>
+                <input type="password" name="password" class="form-control input-animated @error('password') is-invalid @enderror" placeholder="Minimal 6 karakter" required>
                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('members.index') }}" class="btn btn-secondary">Batal</a>
+
+            <div class="mt-4 d-flex align-items-center gap-2">
+                <button type="submit" class="btn btn-success btn-animated px-4">
+                    <i class="fas fa-save mr-1"></i>Simpan
+                </button>
+                <a href="{{ route('members.index') }}" class="btn btn-secondary btn-animated px-4">
+                    <i class="fas fa-times mr-1"></i>Batal
+                </a>
+            </div>
         </form>
     </div>
 </div>
+@stop
+
+@section('css')
+<style>
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-slide-in{animation:slideIn .6s ease-out}
+.animate-fade-in{animation:fadeIn .7s ease-out}
+.bg-blue-eduself{background:#192334}
+.font-weight-500{font-weight:500}
+.card{transition:.3s}
+.card:hover{box-shadow:0 12px 28px rgba(0,0,0,.15)}
+.input-animated{transition:.3s;border:2px solid #e0e0e0;padding:10px 14px;border-radius:8px}
+.input-animated:focus{border-color:#192334;box-shadow:0 0 0 .15rem rgba(25,35,52,.25);outline:none}
+.btn-animated{position:relative;overflow:hidden;transition:.3s}
+.btn-animated::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.35);transform:translate(-50%,-50%);transition:.55s}
+.btn-animated:hover::before{width:220px;height:220px}
+.btn-animated:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+.gap-2 > * + *{margin-left:.5rem}
+
+@media (max-width:576px){
+ .mt-4.d-flex{flex-direction:column}
+ .gap-2 > * + *{margin-left:0;margin-top:.5rem}
+ .form-row{display:block}
+ .form-row .form-group{width:100%}
+}
+</style>
+@stop
+
+@section('js')
+<script>
+document.addEventListener('DOMContentLoaded',()=> {
+  const form=document.querySelector('form');
+  form.addEventListener('submit',()=>{
+    const btn=form.querySelector('button[type="submit"]');
+    btn.disabled=true;
+    btn.innerHTML='<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...';
+  });
+});
+</script>
 @stop
