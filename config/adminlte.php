@@ -351,6 +351,11 @@ return [
                     'url'  => 'admin/peminjamans',
                     'icon' => 'fas fa-fw fa-book-reader',
                 ],
+                [
+                    'text' => 'Data Peminjaman Baru Bismillah',
+                    'url'  => 'admin/loans',
+                    'icon' => 'fas fa-fw fa-book-reader',
+                ],
             ],
         ],
         [

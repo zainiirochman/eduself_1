@@ -18,11 +18,11 @@ class Peminjaman extends Model
 
     public function buku()
     {
-        return $this->belongsTo(Book::class); // Ubah Buku menjadi Book
+        return $this->belongsTo(Book::class);
     }
 
-    public function anggota() // Ubah peminjam menjadi anggota
+    public function anggota()
     {
-        return $this->belongsTo(Anggota::class); // Ubah Peminjam menjadi Anggota
+        return $this->belongsTo(Anggota::class);
     }
 }

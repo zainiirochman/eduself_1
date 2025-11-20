@@ -22,17 +22,17 @@
                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
-                <label for="jk">Jenis Kelamin</label>
-                <select name="jk" id="jk" class="form-control @error('jk') is-invalid @enderror" required>
+                <label for="gender">Jenis Kelamin</label>
+                <select name="gender" id="gender" class="form-control @error('gender') is-invalid @enderror" required>
                     <option value="">-- Pilih Jenis Kelamin --</option>
-                    <option value="Laki-laki" {{ old('jk', $member->jk ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                    <option value="Perempuan" {{ old('jk', $member->jk ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    <option value="Laki-laki" {{ old('gender', $member->gender ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                    <option value="Perempuan" {{ old('gender', $member->gender ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                 </select>
-                @error('jk') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @error('gender') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label for="prodi">Program Studi</label>
-                <select name="prodi" id="jk" class="form-control @error('prodi') is-invalid @enderror" required>
+                <select name="prodi" id="prodi" class="form-control @error('prodi') is-invalid @enderror" required>
                     <option value="">-- Pilih Program Studi --</option>
                     <option value="Pend. Teknologi Informasi" {{ old('prodi', $member->prodi ?? '') == 'Pend. Teknologi Informasi' ? 'selected' : '' }}>Pend. Teknologi Informasi</option>
                     <option value="Sistem Informasi" {{ old('prodi', $member->prodi ?? '') == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi</option>

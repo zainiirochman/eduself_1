@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AnggotaController;
 
 use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\LoanController;
 
 use App\Http\Controllers\Admin\PeminjamanController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/members', MemberController::class);
     Route::resource('admin/peminjamans', PeminjamanController::class);
     Route::post('/admin/peminjamans/{id}/return', [PeminjamanController::class, 'return'])->name('peminjamans.return');
+
+    Route::resource('admin/loans', LoanController::class);
+    Route::post('/admin/loans/{id}/return', [LoanController::class, 'return'])->name('loans.return');
+
     Route::resource('admin/history', HistoryController::class)->only(['index']);
     Route::get('admin/history/print', [HistoryController::class, 'print'])->name('history.print');
 });
