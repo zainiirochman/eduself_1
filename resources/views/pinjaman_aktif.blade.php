@@ -17,9 +17,9 @@
 </head>
 <body class="bg-gray-100">
     @php
-        $anggota = null;
-        if(session('anggota_id')) {
-            $anggota = \App\Models\Anggota::find(session('angggota_id'));
+        $member = null;
+        if(session('member_id')) {
+            $member = \App\Models\Member::find(session('member_id'));
         }
     @endphp
 
@@ -46,7 +46,7 @@
     <!-- dynamic spacer: akan di-set sesuai tinggi header -->
     <div id="headerSpacer" class="w-full"></div>
 
-    <main class="container mx-auto py-8 px-6">
+    <main class="container mx-auto py-8 px-6 space-y-12">
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-6 text-gray-800">Peminjaman Aktif Saya</h2>
 
@@ -69,7 +69,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($peminjamans as $index => $p)
+                        @forelse($loans as $index => $p)
                             @php
                                 $jatuhTempo = \Carbon\Carbon::parse($p->tanggal_jatuh_tempo);
                                 $isOverdue = $jatuhTempo->isPast();
@@ -92,6 +92,51 @@
                             <tr>
                                 <td colspan="6" class="py-8 px-4 text-center text-gray-500">
                                     Anda belum memiliki peminjaman aktif.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Riwayat Peminjaman Saya</h2>
+
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-700">
+                            <th class="py-3 px-4 border text-center">No</th>
+                            <th class="py-3 px-4 border text-center">Judul Buku</th>
+                            <th class="py-3 px-4 border text-center">Tanggal Pinjam</th>
+                            <th class="py-3 px-4 border text-center">Jatuh Tempo</th>
+                            <th class="py-3 px-4 border text-center">Denda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($histories as $index => $p)
+                            @php
+                                $jatuhTempo = \Carbon\Carbon::parse($p->due_date);
+                                $isOverdue = $jatuhTempo->isPast();
+                            @endphp
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 border text-center">{{ $index + 1 }}</td>
+                                <td class="py-3 px-4 border">{{ $p->buku->title ?? '-' }}</td>
+                                <td class="py-3 px-4 border text-center">{{ \Carbon\Carbon::parse($p->loan_date)->format('d/m/Y') }}</td>
+                                <td class="py-3 px-4 border text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
+                                <td class="py-3 px-4 border text-center">Rp {{ number_format($p->denda ?? 0, 0, ',', '.') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="py-8 px-4 text-center text-gray-500">
+                                    Anda belum memiliki riwayat peminjaman.
                                 </td>
                             </tr>
                         @endforelse

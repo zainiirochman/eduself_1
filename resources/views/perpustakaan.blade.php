@@ -19,9 +19,9 @@
 <body class="bg-gray-100">
 
     @php
-        $anggota = null;
-        if(session('anggota_id')) {
-            $anggota = \App\Models\Anggota::find(session('anggota_id'));
+        $member = null;
+        if(session('member_id')) {
+            $member = \App\Models\Member::find(session('member_id'));
         }
     @endphp
 
@@ -42,18 +42,18 @@
                     <li><a href="/perpustakaan" class="px-3 py-1 rounded {{ request()->is('perpustakaan*') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Perpustakaan</a></li>
                     <li><a href="/tentang_kami" class="px-3 py-1 rounded {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Tentang Kami</a></li>
 
-                    @if($anggota)
+                    @if($member)
                         <li class="relative">
                             <button type="button" id="userMenuBtn" aria-haspopup="true" aria-expanded="false"
                                     class="ml-3 px-4 py-1 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-medium shadow-sm flex items-center">
                                 <i class="fas fa-user-circle mr-2"></i>
-                                <span class="truncate max-w-[160px]">{{ $anggota->name }}</span>
+                                <span class="truncate max-w-[160px]">{{ $member->name }}</span>
                             </button>
 
                             <div id="userMenuDropdown" class="hidden bg-white rounded-lg shadow-lg border border-gray-100 w-56 absolute right-0 mt-2 z-50">
                                 <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3 rounded-t-lg">
-                                    <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
-                                    <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
+                                    <p class="text-white font-semibold text-sm">{{ $member->name }}</p>
+                                    <p class="text-gray-300 text-xs">{{ $member->email ?? 'Anggota' }}</p>
                                 </div>
                                 <a href="/peminjaman-aktif" class="flex items-center px-4 py-3 text-[#23485B] hover:bg-[#f7f9fb] border-b">
                                     <i class="fas fa-book mr-3"></i>Peminjaman Aktif
@@ -229,7 +229,7 @@
             </div>
 
             <div class="p-4 border-t flex justify-end gap-3">
-                @if($anggota)
+                @if($member)
                     <button id="modalBorrowBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:opacity-90 hidden" data-book-id="" style="background:#87C15A;color:#fff;">
                         Pinjam
                     </button>
@@ -245,7 +245,7 @@
         // existing scripts left intact (preview modal, borrow flow, user dropdown)
         document.addEventListener('DOMContentLoaded', function () {
             const csrfToken = '{{ csrf_token() }}';
-            const anggotaExists = {!! json_encode(!!$anggota) !!};
+            const anggotaExists = {!! json_encode(!!$member) !!};
             const btn = document.getElementById('userMenuBtn');
             const dropdown = document.getElementById('userMenuDropdown');
             if(btn && dropdown){

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Carbon\Carbon;
-use App\Models\Peminjaman;
+use App\Models\Loan;
 
 class PerpustakaanController extends Controller
 {
@@ -81,8 +81,8 @@ class PerpustakaanController extends Controller
             'book_id' => 'required|integer|exists:books,id',
         ]);
 
-        $anggotaId = session('anggota_id');
-        if (!$anggotaId) {
+        $memberId = session('member_id');
+        if (!$memberId) {
             return response()->json(['message' => 'Harus login untuk meminjam buku.'], 403);
         }
 
@@ -106,12 +106,11 @@ class PerpustakaanController extends Controller
             return response()->json(['message' => 'Buku saat ini tidak tersedia.'], 422);
         }
 
-        // create peminjaman record
-        $p = new Peminjaman();
-        $p->anggota_id = $anggotaId;
+        $p = new Loan();
+        $p->member_id = $memberId;
         $p->buku_id = $book->id;
-        $p->tanggal_pinjam = Carbon::now();
-        $p->tanggal_jatuh_tempo = Carbon::now()->addDays(7);
+        $p->loan_date = Carbon::now();
+        $p->due_date = Carbon::now()->addDays(7);
         $p->save();
 
         // update books.stock:
@@ -125,7 +124,7 @@ class PerpustakaanController extends Controller
 
         return response()->json([
             'message' => 'Berhasil meminjam buku.',
-            'peminjaman_id' => $p->id,
+            'loan_id' => $p->id,
             'new_stock' => $book->stock,
         ]);
     }

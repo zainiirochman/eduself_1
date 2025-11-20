@@ -39,9 +39,9 @@
 <body class="bg-gray-100 antialiased text-gray-800">
 
 @php
-    $anggota = null;
-    if(session('anggota_id')) {
-        $anggota = \App\Models\Anggota::find(session('anggota_id'));
+    $member = null;
+    if(session('member_id')) {
+        $member = \App\Models\Member::find(session('member_id'));
     }
 @endphp
 
@@ -62,18 +62,18 @@
                 <li><a href="/perpustakaan" class="px-3 py-1 rounded {{ request()->is('perpustakaan*') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Perpustakaan</a></li>
                 <li><a href="/tentang_kami" class="px-3 py-1 rounded {{ request()->is('tentang_kami') ? 'bg-white text-[#111A28] font-semibold' : 'hover:bg-white/5' }}">Tentang Kami</a></li>
 
-                @if($anggota)
+                @if($member)
                     <li class="relative">
                         <button type="button" id="userMenuBtn" aria-haspopup="true" aria-expanded="false"
                                 class="ml-3 px-4 py-1 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-medium shadow-sm flex items-center">
                             <i class="fas fa-user-circle mr-2"></i>
-                            <span class="truncate max-w-[160px]">{{ $anggota->name }}</span>
+                            <span class="truncate max-w-[160px]">{{ $member->name }}</span>
                         </button>
 
                         <div id="userMenuDropdown" class="hidden bg-white rounded-lg shadow-lg border border-gray-100 w-56 absolute right-0 mt-2 z-50">
                             <div class="bg-gradient-to-r from-[#23485B] to-[#111A28] px-4 py-3 rounded-t-lg">
-                                <p class="text-white font-semibold text-sm">{{ $anggota->name }}</p>
-                                <p class="text-gray-300 text-xs">{{ $anggota->email ?? 'Anggota' }}</p>
+                                <p class="text-white font-semibold text-sm">{{ $member->name }}</p>
+                                <p class="text-gray-300 text-xs">{{ $member->email ?? 'Anggota' }}</p>
                             </div>
                             <a href="/peminjaman-aktif" class="flex items-center px-4 py-3 text-[#23485B] hover:bg-[#f7f9fb] border-b">
                                 <i class="fas fa-book mr-3"></i>Peminjaman Aktif
@@ -111,7 +111,7 @@
                 <a href="/perpustakaan" class="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-[#87C15A] to-[#6FA849] text-white font-semibold shadow-lg shimmer">
                     <i class="fas fa-book-open mr-3"></i> Jelajahi Perpustakaan
                 </a>
-                @unless($anggota)
+                @unless($member)
                 <a href="{{ route('register_pengguna') }}" class="inline-flex items-center px-6 py-3 rounded-lg bg-white text-[#111A28] font-semibold shadow-lg hover:shadow-xl transition">
                     <i class="fas fa-user-plus mr-3"></i> Daftar Sekarang
                 </a>

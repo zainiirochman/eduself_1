@@ -32,8 +32,8 @@
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
-                <label for="jk" class="block text-[#111A28] font-semibold mb-2">Jenis Kelamin</label>
-                <select id="jk" name="jk" required
+                <label for="gender" class="block text-[#111A28] font-semibold mb-2">Jenis Kelamin</label>
+                <select id="gender" name="gender" required
                     class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <option value="">Pilih Jenis Kelamin</option>
                     <option value="Laki-laki">Laki-laki</option>
