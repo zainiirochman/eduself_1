@@ -50,7 +50,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-500">Email Unesa</label>
-                    <input type="email" name="email" class="form-control input-animated @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="contoh@mhs.unesa.ac.id" required>
+                    <input type="email" name="email" pattern="^[^@]+@mhs\.unesa\.ac\.id$" class="form-control input-animated @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="contoh@mhs.unesa.ac.id" required>
                     @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group col-md-6">
