@@ -59,3 +59,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## 📜 Lisensi & Hak Kekayaan Intelektual (HKI)
+
+Proyek ini merupakan karya asli yang telah terdaftar secara resmi di **Direktorat Jenderal Kekayaan Intelektual (DJKI) Indonesia**.
+
+- **Pemegang Hak:** Muhammad Zaini Rochman
+- **Nomor Registrasi:** EC002025195750
+- **Status:** Dilindungi Undang-Undang
+
+Segala bentuk plagiarisme atau penggunaan kode sumber tanpa izin tertulis akan ditindaklanjuti sesuai hukum yang berlaku di Indonesia.
